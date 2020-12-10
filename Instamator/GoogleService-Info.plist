@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>709324964763-l8s86ce7mcj9sk8vau6ki3ms71qs6k5c.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.709324964763-l8s86ce7mcj9sk8vau6ki3ms71qs6k5c</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCr57uNgdKOwqZbGeAS4bQieXvVknovJoI</string>
+	<key>GCM_SENDER_ID</key>
+	<string>709324964763</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.2020.Instamator</string>
+	<key>PROJECT_ID</key>
+	<string>instademo-81fe4</string>
+	<key>STORAGE_BUCKET</key>
+	<string>instademo-81fe4.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:709324964763:ios:47df53dc583e0dcc61d73e</string>
+	<key>DATABASE_URL</key>
+	<string>https://instademo-81fe4.firebaseio.com</string>
+</dict>
+</plist>

@@ -30,6 +30,7 @@ class LogInViewController: UIViewController {
         aTextField.backgroundColor = UIColor(white: 0, alpha: 0.03)
         aTextField.borderStyle = .roundedRect
         aTextField.font = UIFont.systemFont(ofSize: 14)
+        aTextField.addTarget(self, action: #selector(enableLoginButton), for: .editingChanged)
         return aTextField
     }()
     
@@ -40,6 +41,7 @@ class LogInViewController: UIViewController {
          aTextField.borderStyle = .roundedRect
          aTextField.font = UIFont.systemFont(ofSize: 14)
         aTextField.isSecureTextEntry = true
+        aTextField.addTarget(self, action: #selector(enableLoginButton), for: UIControl.Event.editingChanged)
          return aTextField
     }()
     
@@ -49,6 +51,7 @@ class LogInViewController: UIViewController {
         aButton.setTitleColor(.white, for: UIControl.State.normal)
         aButton.backgroundColor = UIColor(red: 149/255, green: 204/255, blue: 244/255, alpha: 1)
         aButton.layer.cornerRadius = 5
+        aButton.isEnabled = false
         return aButton
     }()
     
@@ -57,7 +60,7 @@ class LogInViewController: UIViewController {
         let attributedTitle = NSMutableAttributedString(string: "Don't have an account?", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14.0), NSAttributedString.Key.foregroundColor: UIColor.lightGray])
         attributedTitle.append(NSAttributedString(string: " Sign Up", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14.0), NSAttributedString.Key.foregroundColor: UIColor(red: 17/255, green: 154/255, blue: 237/255, alpha: 1)]))
         aButton.setAttributedTitle(attributedTitle, for: UIControl.State.normal)
-        aButton.addTarget(self, action: #selector(bringSignUp), for: UIControl.Event.touchUpInside)
+        aButton.addTarget(self, action: #selector(handleLogIn), for: UIControl.Event.touchUpInside)
         return aButton
     }()
 
@@ -92,7 +95,17 @@ class LogInViewController: UIViewController {
 
 
 extension LogInViewController {
-    @objc func bringSignUp() {
-       
+    @objc func handleLogIn() {
+        let signUpVC = SignUpViewController()
+        signUpVC.modalPresentationStyle = .fullScreen
+        self.navigationController?.present(signUpVC, animated: true, completion: nil)
+    }
+    
+    @objc func enableLoginButton() {
+        guard emailTextField.hasText, passwordTextField.hasText else {
+            return
+        }
+        loginButton.isEnabled = true
+        loginButton.backgroundColor = UIColor(red: 17/255, green: 134/255, blue: 237/255, alpha: 1)
     }
 }

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		39FF863E1B295C46EAECA7B1 /* Pods_Instamator.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E0F091BCF4F39FE419EAC98 /* Pods_Instamator.framework */; };
 		DA2FEDF325816E4A00AEE542 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2FEDF225816E4A00AEE542 /* AppDelegate.swift */; };
 		DA2FEDF525816E4A00AEE542 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2FEDF425816E4A00AEE542 /* SceneDelegate.swift */; };
 		DA2FEDFA25816E4A00AEE542 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DA2FEDF825816E4A00AEE542 /* Main.storyboard */; };
@@ -14,9 +15,14 @@
 		DA2FEDFF25816E4E00AEE542 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DA2FEDFD25816E4E00AEE542 /* LaunchScreen.storyboard */; };
 		DA2FEE0B2581704000AEE542 /* LogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2FEE0A2581704000AEE542 /* LogInViewController.swift */; };
 		DA2FEE0D2581720800AEE542 /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2FEE0C2581720800AEE542 /* UIView.swift */; };
+		DA2FEE0F25817E5000AEE542 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2FEE0E25817E5000AEE542 /* SignUpViewController.swift */; };
+		DA31CC672581D9D00009892C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DA31CC662581D9D00009892C /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5D3D754F69671AB84C32A4D3 /* Pods-Instamator.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Instamator.release.xcconfig"; path = "Target Support Files/Pods-Instamator/Pods-Instamator.release.xcconfig"; sourceTree = "<group>"; };
+		9E0F091BCF4F39FE419EAC98 /* Pods_Instamator.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Instamator.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9E62F404D976AB154EAE4D44 /* Pods-Instamator.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Instamator.debug.xcconfig"; path = "Target Support Files/Pods-Instamator/Pods-Instamator.debug.xcconfig"; sourceTree = "<group>"; };
 		DA2FEDEF25816E4A00AEE542 /* Instamator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Instamator.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA2FEDF225816E4A00AEE542 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DA2FEDF425816E4A00AEE542 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -26,6 +32,8 @@
 		DA2FEE0025816E4E00AEE542 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DA2FEE0A2581704000AEE542 /* LogInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInViewController.swift; sourceTree = "<group>"; };
 		DA2FEE0C2581720800AEE542 /* UIView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
+		DA2FEE0E25817E5000AEE542 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
+		DA31CC662581D9D00009892C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -33,17 +41,38 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				39FF863E1B295C46EAECA7B1 /* Pods_Instamator.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4A1CDEB8A52DAE82D513B2CB /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				9E62F404D976AB154EAE4D44 /* Pods-Instamator.debug.xcconfig */,
+				5D3D754F69671AB84C32A4D3 /* Pods-Instamator.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		BAD9F1AB7DE44645EF6DA190 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				9E0F091BCF4F39FE419EAC98 /* Pods_Instamator.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		DA2FEDE625816E4A00AEE542 = {
 			isa = PBXGroup;
 			children = (
 				DA2FEDF125816E4A00AEE542 /* Instamator */,
 				DA2FEDF025816E4A00AEE542 /* Products */,
+				4A1CDEB8A52DAE82D513B2CB /* Pods */,
+				BAD9F1AB7DE44645EF6DA190 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -58,6 +87,7 @@
 		DA2FEDF125816E4A00AEE542 /* Instamator */ = {
 			isa = PBXGroup;
 			children = (
+				DA31CC662581D9D00009892C /* GoogleService-Info.plist */,
 				DA2FEE092581700C00AEE542 /* Extensions */,
 				DA2FEE082581700200AEE542 /* Controller */,
 				DA2FEE0725816FF700AEE542 /* Model */,
@@ -90,6 +120,7 @@
 			isa = PBXGroup;
 			children = (
 				DA2FEE0A2581704000AEE542 /* LogInViewController.swift */,
+				DA2FEE0E25817E5000AEE542 /* SignUpViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -109,9 +140,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = DA2FEE0325816E4E00AEE542 /* Build configuration list for PBXNativeTarget "Instamator" */;
 			buildPhases = (
+				29191E4E7E01C777B100166F /* [CP] Check Pods Manifest.lock */,
 				DA2FEDEB25816E4A00AEE542 /* Sources */,
 				DA2FEDEC25816E4A00AEE542 /* Frameworks */,
 				DA2FEDED25816E4A00AEE542 /* Resources */,
+				EE3BD687CA7D8FE0656A4368 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -161,12 +194,55 @@
 			buildActionMask = 2147483647;
 			files = (
 				DA2FEDFF25816E4E00AEE542 /* LaunchScreen.storyboard in Resources */,
+				DA31CC672581D9D00009892C /* GoogleService-Info.plist in Resources */,
 				DA2FEDFC25816E4E00AEE542 /* Assets.xcassets in Resources */,
 				DA2FEDFA25816E4A00AEE542 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		29191E4E7E01C777B100166F /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Instamator-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		EE3BD687CA7D8FE0656A4368 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Instamator/Pods-Instamator-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Instamator/Pods-Instamator-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Instamator/Pods-Instamator-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		DA2FEDEB25816E4A00AEE542 /* Sources */ = {
@@ -177,6 +253,7 @@
 				DA2FEE0B2581704000AEE542 /* LogInViewController.swift in Sources */,
 				DA2FEDF325816E4A00AEE542 /* AppDelegate.swift in Sources */,
 				DA2FEDF525816E4A00AEE542 /* SceneDelegate.swift in Sources */,
+				DA2FEE0F25817E5000AEE542 /* SignUpViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -318,6 +395,7 @@
 		};
 		DA2FEE0425816E4E00AEE542 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9E62F404D976AB154EAE4D44 /* Pods-Instamator.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -336,6 +414,7 @@
 		};
 		DA2FEE0525816E4E00AEE542 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5D3D754F69671AB84C32A4D3 /* Pods-Instamator.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
