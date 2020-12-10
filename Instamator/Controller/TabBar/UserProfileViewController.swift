@@ -7,39 +7,34 @@
 //
 
 import UIKit
+import Firebase
 
 private let reuseIdentifier = "Cell"
+private let headerIdentifier = "HeaderProfileCell"
 
 class UserProfileViewController: UICollectionViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
         self.collectionView.backgroundColor = .white
+        self.fetchCurrentUserData()
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
         // Register cell classes
         self.collectionView!.register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
+        self.collectionView.register(UserProfileHeaderView.self, forSupplementaryViewOfKind:UICollectionView.elementKindSectionHeader, withReuseIdentifier: headerIdentifier)
 
         // Do any additional setup after loading the view.
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using [segue destinationViewController].
-        // Pass the selected object to the new view controller.
-    }
-    */
+    
 
     // MARK: UICollectionViewDataSource
 
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 0
+        return 1
     }
 
 
@@ -87,4 +82,34 @@ class UserProfileViewController: UICollectionViewController {
     }
     */
 
+}
+
+
+//MARK: - Firebase Operations
+extension UserProfileViewController {
+    //set Title of NavigationItem
+    func fetchCurrentUserData() {
+        print("11111111111111111")
+        guard let currentUserID = Auth.auth().currentUser?.uid else {
+            return
+        }
+        Database.database().reference().child("Users").child(currentUserID).child("username").observe(.value) { (snapShot) in
+            guard let userName = snapShot.value as? String else { return }
+            self.navigationItem.title = userName
+        }
+    }
+}
+
+
+//MARK: - Supplementary Header Data Source
+extension UserProfileViewController: UICollectionViewDelegateFlowLayout {
+    override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerIdentifier, for: indexPath) as! UserProfileHeaderView
+        return header
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        return CGSize(width: self.collectionView.frame.width, height: 180)
+    }
+    
 }
