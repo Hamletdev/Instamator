@@ -16,7 +16,7 @@ class SignUpViewController: UIViewController {
     let profileTopButton: UIButton = {
         let aButton = UIButton(type: UIButton.ButtonType.system)
         aButton.setImage(#imageLiteral(resourceName: "plus_photo").withRenderingMode(UIImage.RenderingMode.alwaysOriginal), for: UIControl.State.normal)
-        aButton.addTarget(self, action: #selector(handleSelectProfile), for: UIControl.Event.touchUpInside)
+        aButton.addTarget(self, action: #selector(bringImagePicker), for: UIControl.Event.touchUpInside)
         return aButton
     }()
     
@@ -192,7 +192,7 @@ extension SignUpViewController {
 //MARK: - UIImagePickerDelegate
 extension SignUpViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
-    @objc func handleSelectProfile() {
+    @objc func bringImagePicker() {
         let imagePicker = UIImagePickerController()
         imagePicker.delegate = self
         imagePicker.allowsEditing = true
