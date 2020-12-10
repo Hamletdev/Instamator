@@ -151,34 +151,34 @@ extension SignUpViewController {
             }
             
             if let safeUser = user {
-            let fileName = NSUUID().uuidString
+                let fileName = NSUUID().uuidString
                 
                 //2. storage reference to get image downloadURL
-            let fbStorageRef = Storage.storage().reference()
-            fbStorageRef.child("Profile_Images").child(fileName).putData(safeImageData, metadata: nil) { (storageMetaData, error) in
-                if let safeError = error {
-                    print(safeError)
-                }
-                fbStorageRef.child("Profile_Images").child(fileName).downloadURL { (downloadURL, error) in
+                let fbStorageRef = Storage.storage().reference()
+                fbStorageRef.child("Profile_Images").child(fileName).putData(safeImageData, metadata: nil) { (storageMetaData, error) in
                     if let safeError = error {
                         print(safeError)
                     }
-                    if let safeDownloadURL = downloadURL?.absoluteString {
-                        let userValue = ["name": safeFullName, "username": safeUserName, "profileImageURLString": safeDownloadURL]
-                        let userDictValue = [safeUser.user.uid: userValue]
-                        
-                        //3. add an user to database
-                        Database.database().reference().child("Users").updateChildValues(userDictValue) { (error, dataBaseReference) in
-                            if let safeError = error {
-                                print(safeError)
-                            }
+                    fbStorageRef.child("Profile_Images").child(fileName).downloadURL { (downloadURL, error) in
+                        if let safeError = error {
+                            print(safeError)
+                        }
+                        if let safeDownloadURL = downloadURL?.absoluteString {
+                            let userValue = ["name": safeFullName, "username": safeUserName, "profileImageURLString": safeDownloadURL]
+                            let userDictValue = [safeUser.user.uid: userValue]
                             
-                        }  // (error, databasereference)
-                    }
+                            //3. add an user to database
+                            Database.database().reference().child("Users").updateChildValues(userDictValue) { (error, dataBaseReference) in
+                                if let safeError = error {
+                                    print(safeError)
+                                }
+                                
+                            }  // (error, databasereference)
+                        }
+                        
+                    } // (downloadURL, error)
                     
-                } // (downloadURL, error)
-                
-            }  // (storageMetaData, error)
+                }  // (storageMetaData, error)
             }
             
         } // (user, error)
