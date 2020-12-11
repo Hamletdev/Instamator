@@ -13,20 +13,23 @@ private let reuseIdentifier = "Cell"
 private let headerIdentifier = "HeaderProfileCell"
 
 class UserProfileViewController: UICollectionViewController {
+    
+    var user: User?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         self.collectionView.backgroundColor = .white
-        self.fetchCurrentUserData()
 
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Register cell classes
+        // Register cell classes and header
         self.collectionView!.register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
         self.collectionView.register(UserProfileHeaderView.self, forSupplementaryViewOfKind:UICollectionView.elementKindSectionHeader, withReuseIdentifier: headerIdentifier)
 
-        // Do any additional setup after loading the view.
+        if userLoadedFromSearch == false {
+            self.fetchcurrentUserData()
+        } else {
+            userLoadedFromSearch = false
+        }
+        
     }
     
 
@@ -51,53 +54,8 @@ class UserProfileViewController: UICollectionViewController {
         return cell
     }
 
-    // MARK: UICollectionViewDelegate
+  
 
-    /*
-    // Uncomment this method to specify if the specified item should be highlighted during tracking
-    override func collectionView(_ collectionView: UICollectionView, shouldHighlightItemAt indexPath: IndexPath) -> Bool {
-        return true
-    }
-    */
-
-    /*
-    // Uncomment this method to specify if the specified item should be selected
-    override func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
-        return true
-    }
-    */
-
-    /*
-    // Uncomment these methods to specify if an action menu should be displayed for the specified item, and react to actions performed on the item
-    override func collectionView(_ collectionView: UICollectionView, shouldShowMenuForItemAt indexPath: IndexPath) -> Bool {
-        return false
-    }
-
-    override func collectionView(_ collectionView: UICollectionView, canPerformAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) -> Bool {
-        return false
-    }
-
-    override func collectionView(_ collectionView: UICollectionView, performAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) {
-    
-    }
-    */
-
-}
-
-
-//MARK: - Firebase Operations
-extension UserProfileViewController {
-    //set Title of NavigationItem
-    func fetchCurrentUserData() {
-        print("11111111111111111")
-        guard let currentUserID = Auth.auth().currentUser?.uid else {
-            return
-        }
-        Database.database().reference().child("Users").child(currentUserID).child("username").observe(.value) { (snapShot) in
-            guard let userName = snapShot.value as? String else { return }
-            self.navigationItem.title = userName
-        }
-    }
 }
 
 
@@ -105,11 +63,34 @@ extension UserProfileViewController {
 extension UserProfileViewController: UICollectionViewDelegateFlowLayout {
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerIdentifier, for: indexPath) as! UserProfileHeaderView
+        header.user = self.user
+        self.navigationItem.title = self.user?.userName
         return header
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         return CGSize(width: self.collectionView.frame.width, height: 180)
+    }
+    
+}
+
+
+//MARK: - Firebase Operations
+extension UserProfileViewController {
+    
+    func fetchcurrentUserData() {
+        
+        guard let currentUserID = Auth.auth().currentUser?.uid else {
+            return
+        }
+        
+        Database.database().reference().child("Users").child(currentUserID).observe(DataEventType.value) { (snapshot) in
+            guard let currentUserDictionary = snapshot.value as? [String: AnyObject] else { return }
+
+            let currentUser: User = User(currentUserID, userDictionary: currentUserDictionary)
+            self.user = currentUser
+            self.collectionView.reloadData()
+        }
     }
     
 }

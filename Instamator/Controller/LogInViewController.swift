@@ -80,7 +80,6 @@ class LogInViewController: UIViewController {
         self.view.addSubview(doNotHaveAccountButton)
         doNotHaveAccountButton.anchorView(top: nil, left: self.view.leftAnchor, bottom: self.view.bottomAnchor, right: self.view.rightAnchor, topPadding: 0, leftPadding: 0, bottomPadding: 10, rightPadding: 0, width: 0, height: 40)
         
-        
     }
     
     func configureViewComponents() {
@@ -100,7 +99,7 @@ extension LogInViewController {
     @objc func bringSignUpView() {
         let signUpVC = SignUpViewController()
         signUpVC.modalPresentationStyle = .fullScreen
-        self.navigationController?.present(signUpVC, animated: true, completion: nil)
+        self.navigationController?.pushViewController(signUpVC, animated: true)
     }
     
     @objc func enableLoginButton() {
@@ -125,7 +124,7 @@ extension LogInViewController {
                 return
             }
             
-            self.dismiss(animated: true, completion: nil)
+            self.navigationController?.dismiss(animated: true, completion: nil)
         } // (authData,error)
     }
 }

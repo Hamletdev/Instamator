@@ -112,7 +112,7 @@ class SignUpViewController: UIViewController {
 extension SignUpViewController {
     
     @objc func bringLogIn() {
-        self.dismiss(animated: true, completion: nil)
+        self.navigationController?.popToRootViewController(animated: true)
     }
     
     @objc func enableSignUpButton() {
@@ -183,7 +183,7 @@ extension SignUpViewController {
             
         } // (user, error)
         
-        self.dismiss(animated: true, completion: nil)
+        self.navigationController?.dismiss(animated: true, completion: nil)
         
     }
     

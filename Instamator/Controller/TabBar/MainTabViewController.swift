@@ -14,8 +14,8 @@ class MainTabViewController: UITabBarController, UITabBarControllerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.delegate = self
+        self.checkIfUserIsLoggedIn()
         self.configureViewControllers()
-
         // Do any additional setup after loading the view.
     }
     

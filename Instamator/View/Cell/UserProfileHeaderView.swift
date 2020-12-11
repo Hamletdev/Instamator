@@ -7,8 +7,22 @@
 //
 
 import UIKit
+import Firebase
 
 class UserProfileHeaderView: UICollectionReusableView, UICollectionViewDelegateFlowLayout {
+    
+    var user: User? {
+        didSet {
+        
+            let fullName = user?.fullName
+            self.fullnameLabel.text = fullName
+            guard let safeString = user?.profileImageURLString else {
+                return
+            }
+             self.profileImageView.loadImage(safeString)
+            self.configureEditFollowButton()
+        }
+    }
     
     let profileImageView: UIImageView = {
         let aImageView = UIImageView()
@@ -57,7 +71,7 @@ class UserProfileHeaderView: UICollectionReusableView, UICollectionViewDelegateF
     
     let editProfileButton: UIButton = {
         let aButton = UIButton(type: UIButton.ButtonType.system)
-        aButton.setTitle("Edit Profile", for: UIControl.State.normal)
+        aButton.setTitle("Loading..", for: UIControl.State.normal)
         aButton.layer.cornerRadius = 3
         aButton.layer.borderColor = UIColor.lightGray.cgColor
         aButton.layer.borderWidth = 0.5
@@ -133,9 +147,27 @@ class UserProfileHeaderView: UICollectionReusableView, UICollectionViewDelegateF
         self.addSubview(aStackView)
         self.addSubview(topDividerView)
         self.addSubview(bottomDividerView)
+        
         aStackView.anchorView(top: nil, left: self.leftAnchor, bottom: self.bottomAnchor, right: self.rightAnchor, topPadding: 0, leftPadding: 0, bottomPadding: 0, rightPadding: 0, width: 0, height: 40)
         topDividerView.anchorView(top: aStackView.topAnchor, left: self.leftAnchor, bottom: nil, right: self.rightAnchor, topPadding: 0, leftPadding: 0, bottomPadding: 0, rightPadding: 0, width: 0, height: 0.5)
         bottomDividerView.anchorView(top: aStackView.bottomAnchor, left: self.leftAnchor, bottom: nil, right: self.rightAnchor, topPadding: 0, leftPadding: 0, bottomPadding: 0, rightPadding: 0, width: 0, height: 0.5)
     }
     
+}
+
+
+//MARK: - Extra Methods
+extension UserProfileHeaderView {
+    func configureEditFollowButton() {
+        guard let currentuserID = Auth.auth().currentUser?.uid else {
+            return
+        }
+        if self.user?.uID == currentuserID {
+            self.editProfileButton.setTitle("Edit Profile", for: .normal)
+        } else {
+            self.editProfileButton.setTitle("Follow", for: .normal)
+            self.editProfileButton.setTitleColor(.white, for: .normal)
+            self.editProfileButton.backgroundColor = UIColor(red: 17/255, green: 154/255, blue: 237/255, alpha: 1)
+        }
+    }
 }
