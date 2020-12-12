@@ -29,8 +29,8 @@ extension UIImageView {
             }
             if let safeData = data {
                 let profileImage = UIImage(data: safeData)
-                cachedImage[imageString] = profileImage
                 DispatchQueue.main.async {
+                    cachedImage[imageString] = profileImage
                     self.image = profileImage
                 }
             }

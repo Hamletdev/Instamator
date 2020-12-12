@@ -17,6 +17,11 @@
 		DA2FEE0D2581720800AEE542 /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2FEE0C2581720800AEE542 /* UIView.swift */; };
 		DA2FEE0F25817E5000AEE542 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2FEE0E25817E5000AEE542 /* SignUpViewController.swift */; };
 		DA31CC672581D9D00009892C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DA31CC662581D9D00009892C /* GoogleService-Info.plist */; };
+		DA36962E2584DEFD00887944 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA36962D2584DEFD00887944 /* Constants.swift */; };
+		DA3696302584DF0A00887944 /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA36962F2584DF0A00887944 /* Protocols.swift */; };
+		DA369633258529AF00887944 /* FollowViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA369632258529AF00887944 /* FollowViewController.swift */; };
+		DA36963525852A0600887944 /* FollowViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA36963425852A0600887944 /* FollowViewCell.swift */; };
+		DA369637258546FB00887944 /* Database.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA369636258546FB00887944 /* Database.swift */; };
 		DAA073782582367F0086C442 /* MainTabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA073772582367F0086C442 /* MainTabViewController.swift */; };
 		DAA0737B258237E60086C442 /* FeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA0737A258237E60086C442 /* FeedViewController.swift */; };
 		DAA0737D2582380E0086C442 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA0737C2582380E0086C442 /* SearchViewController.swift */; };
@@ -44,6 +49,11 @@
 		DA2FEE0C2581720800AEE542 /* UIView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
 		DA2FEE0E25817E5000AEE542 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		DA31CC662581D9D00009892C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		DA36962D2584DEFD00887944 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		DA36962F2584DF0A00887944 /* Protocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
+		DA369632258529AF00887944 /* FollowViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowViewController.swift; sourceTree = "<group>"; };
+		DA36963425852A0600887944 /* FollowViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowViewCell.swift; sourceTree = "<group>"; };
+		DA369636258546FB00887944 /* Database.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Database.swift; sourceTree = "<group>"; };
 		DAA073772582367F0086C442 /* MainTabViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabViewController.swift; sourceTree = "<group>"; };
 		DAA0737A258237E60086C442 /* FeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewController.swift; sourceTree = "<group>"; };
 		DAA0737C2582380E0086C442 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
@@ -106,6 +116,7 @@
 		DA2FEDF125816E4A00AEE542 /* Instamator */ = {
 			isa = PBXGroup;
 			children = (
+				DA36962C2584DEE100887944 /* Utils */,
 				DA31CC662581D9D00009892C /* GoogleService-Info.plist */,
 				DA2FEE092581700C00AEE542 /* Extensions */,
 				DA2FEE082581700200AEE542 /* Controller */,
@@ -140,6 +151,7 @@
 		DA2FEE082581700200AEE542 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				DA3696312585299600887944 /* Others */,
 				DAA073792582379E0086C442 /* TabBar */,
 				DA2FEE0A2581704000AEE542 /* LogInViewController.swift */,
 				DA2FEE0E25817E5000AEE542 /* SignUpViewController.swift */,
@@ -152,8 +164,26 @@
 			children = (
 				DA2FEE0C2581720800AEE542 /* UIView.swift */,
 				DAFA11B42583DCE700CAE117 /* UIImageView.swift */,
+				DA369636258546FB00887944 /* Database.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		DA36962C2584DEE100887944 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				DA36962D2584DEFD00887944 /* Constants.swift */,
+				DA36962F2584DF0A00887944 /* Protocols.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		DA3696312585299600887944 /* Others */ = {
+			isa = PBXGroup;
+			children = (
+				DA369632258529AF00887944 /* FollowViewController.swift */,
+			);
+			path = Others;
 			sourceTree = "<group>";
 		};
 		DAA073792582379E0086C442 /* TabBar */ = {
@@ -174,6 +204,7 @@
 			children = (
 				DAA0738525824A6E0086C442 /* UserProfileHeaderView.swift */,
 				DAFA11B62583E28500CAE117 /* SearchViewCell.swift */,
+				DA36963425852A0600887944 /* FollowViewCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -297,10 +328,12 @@
 				DAFA11B325837D3C00CAE117 /* User.swift in Sources */,
 				DAA07381258238660086C442 /* NotificationViewController.swift in Sources */,
 				DA2FEE0D2581720800AEE542 /* UIView.swift in Sources */,
+				DA369633258529AF00887944 /* FollowViewController.swift in Sources */,
 				DA2FEE0B2581704000AEE542 /* LogInViewController.swift in Sources */,
 				DAA0737D2582380E0086C442 /* SearchViewController.swift in Sources */,
 				DA2FEDF325816E4A00AEE542 /* AppDelegate.swift in Sources */,
 				DAFA11B72583E28500CAE117 /* SearchViewCell.swift in Sources */,
+				DA36962E2584DEFD00887944 /* Constants.swift in Sources */,
 				DAA0737F2582384D0086C442 /* UploadViewController.swift in Sources */,
 				DA2FEDF525816E4A00AEE542 /* SceneDelegate.swift in Sources */,
 				DAA0738625824A6E0086C442 /* UserProfileHeaderView.swift in Sources */,
@@ -308,6 +341,9 @@
 				DA2FEE0F25817E5000AEE542 /* SignUpViewController.swift in Sources */,
 				DAA07383258238820086C442 /* UserProfileViewController.swift in Sources */,
 				DAA073782582367F0086C442 /* MainTabViewController.swift in Sources */,
+				DA3696302584DF0A00887944 /* Protocols.swift in Sources */,
+				DA36963525852A0600887944 /* FollowViewCell.swift in Sources */,
+				DA369637258546FB00887944 /* Database.swift in Sources */,
 				DAFA11B52583DCE700CAE117 /* UIImageView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
