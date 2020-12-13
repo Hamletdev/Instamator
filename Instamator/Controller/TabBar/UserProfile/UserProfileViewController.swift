@@ -9,71 +9,91 @@
 import UIKit
 import Firebase
 
-private let reuseIdentifier = "Cell"
+private let reuseIdentifier = "UserProfileCell"
 private let headerIdentifier = "HeaderProfileCell"
 
 class UserProfileViewController: UICollectionViewController, UserProfileHeaderViewDelegate {
     
-    var user: User?
-
+    var headerUser: User?
+    
+    var totalPost = [Post]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.collectionView.backgroundColor = .white
-
+        
         // Register cell classes and header
-        self.collectionView!.register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
+        self.collectionView!.register(UserProfileCell.self, forCellWithReuseIdentifier: reuseIdentifier)
         self.collectionView!.register(UserProfileHeaderView.self, forSupplementaryViewOfKind:UICollectionView.elementKindSectionHeader, withReuseIdentifier: headerIdentifier)
         
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
         if userLoadedFromSearch == false {
             self.fetchcurrentUserData()
+            self.fetchPosts(Auth.auth().currentUser?.uid)
         } else {
             userLoadedFromSearch = false
+            self.fetchPosts(self.headerUser?.uID)
         }
     }
     
-
+    
+    
     // MARK: UICollectionViewDataSource
-
+    
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
     }
-
-
+    
+    
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of items
-        return 0
+        return totalPost.count
     }
-
+    
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath)
-    
-        // Configure the cell
-    
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! UserProfileCell
+        
+        cell.post = totalPost[indexPath.row]
+        
         return cell
     }
-
-  
-
-}
-
-
-//MARK: - Supplementary Header Data Source
-extension UserProfileViewController: UICollectionViewDelegateFlowLayout {
+    
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerIdentifier, for: indexPath) as! UserProfileHeaderView
         header.delegate = self
-        header.user = self.user
-        self.navigationItem.title = self.user?.userName
+        header.user = self.headerUser
+        
+        self.navigationItem.title = self.headerUser?.userName
         return header
     }
     
+    
+    
+}
+
+
+//MARK: - UICollectionViewDelegateFlowLayout
+extension UserProfileViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         return CGSize(width: self.collectionView.frame.width, height: 180)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 1
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 1
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let width = (self.collectionView.frame.width - 2) / 3
+        return CGSize(width: width, height: width)
     }
     
 }
@@ -90,10 +110,36 @@ extension UserProfileViewController {
         
         Database.database().reference().child("Users").child(currentUserID).observe(DataEventType.value) { (snapshot) in
             guard let currentUserDictionary = snapshot.value as? [String: AnyObject] else { return }
-
+            
             let currentUser: User = User(currentUserID, userDictionary: currentUserDictionary)
-            self.user = currentUser
+            self.headerUser = currentUser
             self.collectionView.reloadData()
+        }
+    }
+    
+    func fetchPosts(_ userID: String?) {
+        guard let headerUID = userID else {return}
+        USER_POSTS_REF.child(headerUID).observe(DataEventType.childAdded) { (snapshot) in
+            let postID = snapshot.key
+            POSTS_REF.child(postID).observeSingleEvent(of: .value) { (snapshot2) in
+                guard let postDictionary = snapshot2.value as? [String: AnyObject] else {return}
+                let post = Post(postID, postDictionary: postDictionary)
+                if self.totalPost.contains(post) {
+                    return
+                } else if (self.totalPost.count > 0) {
+                    if self.totalPost[0].ownerID != post.ownerID {
+                        self.totalPost = [Post]()
+                        self.totalPost.append(post)
+                        self.collectionView.reloadData()
+                    } else {
+                        self.totalPost.append(post)
+                        self.collectionView.reloadData()
+                    }
+                } else {
+                    self.totalPost.append(post)
+                    self.collectionView.reloadData()
+                }
+            }
         }
     }
     
@@ -146,16 +192,17 @@ extension UserProfileViewController {
         let followVC = FollowViewController()
         followVC.viewOfFollower = false
         userLoadedFromSearch = true
-        followVC.userID = self.user?.uID
+        followVC.userID = self.headerUser?.uID
         self.navigationController?.pushViewController(followVC, animated: true)
     }
     
     func handleFollowerLabelTapped(_ header: UserProfileHeaderView) {
-         let followVC = FollowViewController()
+        let followVC = FollowViewController()
         followVC.viewOfFollower = true
         userLoadedFromSearch = true
-        followVC.userID = self.user?.uID
-         self.navigationController?.pushViewController(followVC, animated: true)
+        followVC.userID = self.headerUser?.uID
+        self.navigationController?.pushViewController(followVC, animated: true)
     }
     
 }
+

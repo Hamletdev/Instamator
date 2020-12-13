@@ -22,7 +22,7 @@ class SearchViewController: UITableViewController {
         self.tableView.register(SearchViewCell.self, forCellReuseIdentifier: reuseIdentifier)
         self.tableView.separatorInset = UIEdgeInsets(top: 0, left: 50, bottom: 0, right: 0)
         
-        self.fetchUsers()
+        self.fetchTotalUsers()
     }
 
     // MARK: - Table view data source
@@ -54,7 +54,7 @@ class SearchViewController: UITableViewController {
     //MARK: - Table view Delegate
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let userProfileVC = UserProfileViewController(collectionViewLayout: UICollectionViewFlowLayout())
-        userProfileVC.user = totalUser[indexPath.row]
+        userProfileVC.headerUser = totalUser[indexPath.row]
         self.navigationController?.pushViewController(userProfileVC, animated: true)
         userLoadedFromSearch = true
     }
@@ -64,7 +64,7 @@ class SearchViewController: UITableViewController {
 
 //MARK: - Firebase Operation
 extension SearchViewController {
-    func fetchUsers() {
+    func fetchTotalUsers() {
         Database.database().reference().child("Users").observe(DataEventType.childAdded) { (snapshot) in
             guard let searchUserDictionary = snapshot.value as? [String: AnyObject] else { return }
                                              

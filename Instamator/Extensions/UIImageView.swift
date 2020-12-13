@@ -14,6 +14,7 @@ var cachedImage = [String: UIImage]()
 extension UIImageView {
     
     func loadImage(_ imageString: String) {
+        self.image = nil
         if cachedImage[imageString] != nil {
             self.image = cachedImage[imageString]
             return
