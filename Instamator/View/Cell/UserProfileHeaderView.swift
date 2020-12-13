@@ -55,7 +55,7 @@ class UserProfileHeaderView: UICollectionReusableView, UICollectionViewDelegateF
            let aLabel = UILabel()
            aLabel.numberOfLines = 0
            aLabel.textAlignment = .center
-           let attributedString = NSMutableAttributedString(string: "", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 14), NSAttributedString.Key.foregroundColor: UIColor.black])
+           let attributedString = NSMutableAttributedString(string: "0\n", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 14), NSAttributedString.Key.foregroundColor: UIColor.black])
            attributedString.append(NSAttributedString(string: "Following", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 14), NSAttributedString.Key.foregroundColor: UIColor.systemBlue]))
            aLabel.attributedText = attributedString
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(followingLabelTapped))
@@ -69,7 +69,7 @@ class UserProfileHeaderView: UICollectionReusableView, UICollectionViewDelegateF
            let aLabel = UILabel()
            aLabel.numberOfLines = 0
            aLabel.textAlignment = .center
-        let attributedString = NSMutableAttributedString(string: "", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 14), NSAttributedString.Key.foregroundColor: UIColor.black])
+        let attributedString = NSMutableAttributedString(string: "0\n", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 14), NSAttributedString.Key.foregroundColor: UIColor.black])
         attributedString.append(NSAttributedString(string: "Followers", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 14), NSAttributedString.Key.foregroundColor: UIColor.systemBlue]))
            aLabel.attributedText = attributedString
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(followerLabelTapped))
@@ -126,7 +126,7 @@ class UserProfileHeaderView: UICollectionReusableView, UICollectionViewDelegateF
         self.constructUserStats()
         
         self.addSubview(editProfileButton)
-        editProfileButton.anchorView(top: postLabel.bottomAnchor, left: fullnameLabel.rightAnchor, bottom: nil, right: self.rightAnchor, topPadding: 12, leftPadding: 30, bottomPadding: 0, rightPadding: 16, width: 0, height: 30)
+        editProfileButton.anchorView(top: postLabel.bottomAnchor, left: profileImageView.rightAnchor, bottom: nil, right: self.rightAnchor, topPadding: 12, leftPadding: 90, bottomPadding: 0, rightPadding: 16, width: 0, height: 30)
         
         self.constructBottomToolbar()
     }

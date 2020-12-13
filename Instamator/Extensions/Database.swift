@@ -12,7 +12,6 @@ import UIKit
 
 extension Database {
     static func fetchUser(_ userID: String, completion: @escaping(User) ->()) {
-        print("AAAAAAAAAA")
         USERS_REF.child(userID).observeSingleEvent(of: .value) { (snapshot) in
             guard let safeUserDictionary = snapshot.value as? [String: AnyObject] else {return}
             let safeUser = User(userID, userDictionary: safeUserDictionary)

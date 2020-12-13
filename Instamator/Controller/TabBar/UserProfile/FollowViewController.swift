@@ -71,7 +71,7 @@ extension FollowViewController {
             
                 guard let allObjects = snapshot.children.allObjects as? [DataSnapshot] else { return }
                 allObjects.forEach { (snapshot) in
-                    print(snapshot.key)
+                    
                     let followerID = snapshot.key
                     USERS_REF.child(followerID).observeSingleEvent(of: .value) { (snapshot) in
                         guard let safeUserDictionary = snapshot.value as? [String: AnyObject] else {return}

@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		39FF863E1B295C46EAECA7B1 /* Pods_Instamator.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E0F091BCF4F39FE419EAC98 /* Pods_Instamator.framework */; };
+		DA2CC01B258615D600BEB8D7 /* SelectPhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2CC01A258615D600BEB8D7 /* SelectPhotoViewController.swift */; };
+		DA2CC01D2586170C00BEB8D7 /* SelectPhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2CC01C2586170C00BEB8D7 /* SelectPhotoCell.swift */; };
+		DA2CC01F2586176400BEB8D7 /* SelectPhotoHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2CC01E2586176400BEB8D7 /* SelectPhotoHeaderView.swift */; };
 		DA2FEDF325816E4A00AEE542 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2FEDF225816E4A00AEE542 /* AppDelegate.swift */; };
 		DA2FEDF525816E4A00AEE542 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2FEDF425816E4A00AEE542 /* SceneDelegate.swift */; };
 		DA2FEDFA25816E4A00AEE542 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DA2FEDF825816E4A00AEE542 /* Main.storyboard */; };
@@ -38,6 +41,9 @@
 		5D3D754F69671AB84C32A4D3 /* Pods-Instamator.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Instamator.release.xcconfig"; path = "Target Support Files/Pods-Instamator/Pods-Instamator.release.xcconfig"; sourceTree = "<group>"; };
 		9E0F091BCF4F39FE419EAC98 /* Pods_Instamator.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Instamator.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9E62F404D976AB154EAE4D44 /* Pods-Instamator.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Instamator.debug.xcconfig"; path = "Target Support Files/Pods-Instamator/Pods-Instamator.debug.xcconfig"; sourceTree = "<group>"; };
+		DA2CC01A258615D600BEB8D7 /* SelectPhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPhotoViewController.swift; sourceTree = "<group>"; };
+		DA2CC01C2586170C00BEB8D7 /* SelectPhotoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPhotoCell.swift; sourceTree = "<group>"; };
+		DA2CC01E2586176400BEB8D7 /* SelectPhotoHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPhotoHeaderView.swift; sourceTree = "<group>"; };
 		DA2FEDEF25816E4A00AEE542 /* Instamator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Instamator.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA2FEDF225816E4A00AEE542 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DA2FEDF425816E4A00AEE542 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -93,6 +99,24 @@
 				9E0F091BCF4F39FE419EAC98 /* Pods_Instamator.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		DA2CC019258613BA00BEB8D7 /* Post */ = {
+			isa = PBXGroup;
+			children = (
+				DAA0737E2582384D0086C442 /* UploadViewController.swift */,
+				DA2CC01A258615D600BEB8D7 /* SelectPhotoViewController.swift */,
+			);
+			path = Post;
+			sourceTree = "<group>";
+		};
+		DA2CC021258631E600BEB8D7 /* UserProfile */ = {
+			isa = PBXGroup;
+			children = (
+				DA369632258529AF00887944 /* FollowViewController.swift */,
+				DAA07382258238820086C442 /* UserProfileViewController.swift */,
+			);
+			path = UserProfile;
 			sourceTree = "<group>";
 		};
 		DA2FEDE625816E4A00AEE542 = {
@@ -181,7 +205,6 @@
 		DA3696312585299600887944 /* Others */ = {
 			isa = PBXGroup;
 			children = (
-				DA369632258529AF00887944 /* FollowViewController.swift */,
 			);
 			path = Others;
 			sourceTree = "<group>";
@@ -189,12 +212,12 @@
 		DAA073792582379E0086C442 /* TabBar */ = {
 			isa = PBXGroup;
 			children = (
+				DA2CC019258613BA00BEB8D7 /* Post */,
 				DAA073772582367F0086C442 /* MainTabViewController.swift */,
 				DAA0737A258237E60086C442 /* FeedViewController.swift */,
 				DAA0737C2582380E0086C442 /* SearchViewController.swift */,
-				DAA0737E2582384D0086C442 /* UploadViewController.swift */,
 				DAA07380258238660086C442 /* NotificationViewController.swift */,
-				DAA07382258238820086C442 /* UserProfileViewController.swift */,
+				DA2CC021258631E600BEB8D7 /* UserProfile */,
 			);
 			path = TabBar;
 			sourceTree = "<group>";
@@ -205,6 +228,8 @@
 				DAA0738525824A6E0086C442 /* UserProfileHeaderView.swift */,
 				DAFA11B62583E28500CAE117 /* SearchViewCell.swift */,
 				DA36963425852A0600887944 /* FollowViewCell.swift */,
+				DA2CC01C2586170C00BEB8D7 /* SelectPhotoCell.swift */,
+				DA2CC01E2586176400BEB8D7 /* SelectPhotoHeaderView.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -333,6 +358,8 @@
 				DAA0737D2582380E0086C442 /* SearchViewController.swift in Sources */,
 				DA2FEDF325816E4A00AEE542 /* AppDelegate.swift in Sources */,
 				DAFA11B72583E28500CAE117 /* SearchViewCell.swift in Sources */,
+				DA2CC01F2586176400BEB8D7 /* SelectPhotoHeaderView.swift in Sources */,
+				DA2CC01B258615D600BEB8D7 /* SelectPhotoViewController.swift in Sources */,
 				DA36962E2584DEFD00887944 /* Constants.swift in Sources */,
 				DAA0737F2582384D0086C442 /* UploadViewController.swift in Sources */,
 				DA2FEDF525816E4A00AEE542 /* SceneDelegate.swift in Sources */,
@@ -340,6 +367,7 @@
 				DAA0737B258237E60086C442 /* FeedViewController.swift in Sources */,
 				DA2FEE0F25817E5000AEE542 /* SignUpViewController.swift in Sources */,
 				DAA07383258238820086C442 /* UserProfileViewController.swift in Sources */,
+				DA2CC01D2586170C00BEB8D7 /* SelectPhotoCell.swift in Sources */,
 				DAA073782582367F0086C442 /* MainTabViewController.swift in Sources */,
 				DA3696302584DF0A00887944 /* Protocols.swift in Sources */,
 				DA36963525852A0600887944 /* FollowViewCell.swift in Sources */,

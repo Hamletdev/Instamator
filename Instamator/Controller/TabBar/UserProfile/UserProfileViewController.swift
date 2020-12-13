@@ -120,7 +120,7 @@ extension UserProfileViewController {
         FOLLOWING_USERS_REF.child(userID).observe(.value) { (snapshot) in
             if let safeSnapshot = snapshot.value as? [String: AnyObject] {
                 numberOfFollowing = safeSnapshot.count
-                print(safeSnapshot)
+                
             } else {
                 numberOfFollowing = 0
             }
@@ -132,7 +132,7 @@ extension UserProfileViewController {
         FOLLOWER_USERS_REF.child(userID).observe(.value) { (snapshot) in
             if let safeSnapshot = snapshot.value as? [String: AnyObject] {
                 numberOfFollowers = safeSnapshot.count
-                print(safeSnapshot)
+                
             } else {
                 numberOfFollowers = 0
             }
