@@ -50,9 +50,8 @@ class SelectPhotoViewController: UICollectionViewController, UICollectionViewDel
     
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let header = self.collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerIdentifier, for: indexPath) as! SelectPhotoHeaderView
-        header.photoImageView.image = self.selectedImage  //made a bad resolution
+//        header.photoImageView.image = self.selectedImage  //made a bad resolution
         
-        //TODO: FIXIT
         //make resolution better
         self.header = header
         if let safeSelectedimage = self.selectedImage {
@@ -116,6 +115,7 @@ extension SelectPhotoViewController {
     
     @objc func handleNextPressed() {
         let uploadVC = UploadViewController()
+        uploadVC.postImage = self.selectedImage
         self.navigationController?.pushViewController(uploadVC, animated: true)
     }
 }
