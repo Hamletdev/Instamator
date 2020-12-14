@@ -40,6 +40,12 @@ class User {
         self.isFollowed = true
         FOLLOWING_USERS_REF.child(currentuID).updateChildValues([uID: "Added"])
         FOLLOWER_USERS_REF.child(uID).updateChildValues([currentuID: "Added"])
+        
+        //Add post of another user to current user
+        USER_POSTS_REF.child(uID).observe(DataEventType.childAdded) { (snapshot) in
+            let postID = snapshot.key
+            USER_FEED_REF.child(currentuID).updateChildValues([postID: "FollowButtonTapped"])
+        }
     }
     
     func unfollow() {
@@ -50,6 +56,12 @@ class User {
         self.isFollowed = false
         FOLLOWING_USERS_REF.child(currentUID).child(uID).removeValue()
         FOLLOWER_USERS_REF.child(uID).child(currentUID).removeValue()
+        
+        //remove post of another user from current user
+        USER_POSTS_REF.child(uID).observe(DataEventType.childAdded) { (snapshot) in
+            let postID = snapshot.key
+            USER_FEED_REF.child(currentUID).child(postID).removeValue()
+        }
     }
     
     func checkIfAnUserIsFollowed(completion: @escaping(Bool) ->()) {

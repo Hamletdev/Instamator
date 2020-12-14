@@ -73,6 +73,15 @@ class UserProfileViewController: UICollectionViewController, UserProfileHeaderVi
     }
     
     
+    //MARK: - UICollectionViewDelegate
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let feedVC = FeedViewController(collectionViewLayout: UICollectionViewFlowLayout())
+        feedVC.viewSinglePost = true
+        feedVC.feedPost = totalPost[indexPath.row]
+        navigationController?.pushViewController(feedVC, animated: true)
+    }
+    
+    
     
 }
 
@@ -182,22 +191,29 @@ extension UserProfileViewController {
         guard let headerUID = userID else {return}
         USER_POSTS_REF.child(headerUID).observe(DataEventType.childAdded) { (snapshot) in
             let postID = snapshot.key
-            POSTS_REF.child(postID).observeSingleEvent(of: .value) { (snapshot2) in
-                guard let postDictionary = snapshot2.value as? [String: AnyObject] else {return}
-                let post = Post(postID, postDictionary: postDictionary)
+            Database.fetchPost(with: postID) { (post) in
                 if self.totalPost.contains(post) {
                     return
                 } else if (self.totalPost.count > 0) {
                     if self.totalPost[0].ownerID != post.ownerID {
                         self.totalPost = [Post]()
                         self.totalPost.append(post)
+                        self.totalPost.sort { (p1, p2) -> Bool in
+                            return p1.creationDate > p2.creationDate
+                        }
                         self.collectionView.reloadData()
                     } else {
                         self.totalPost.append(post)
+                        self.totalPost.sort { (p1, p2) -> Bool in
+                            return p1.creationDate > p2.creationDate
+                        }
                         self.collectionView.reloadData()
                     }
                 } else {
                     self.totalPost.append(post)
+                    self.totalPost.sort { (p1, p2) -> Bool in
+                        return p1.creationDate > p2.creationDate
+                    }
                     self.collectionView.reloadData()
                 }
             }

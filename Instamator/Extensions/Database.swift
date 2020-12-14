@@ -18,4 +18,15 @@ extension Database {
             completion(safeUser)
         }
     }
+    
+    static func fetchPost(with postID: String, completion: @escaping(Post) -> ()) {
+        POSTS_REF.child(postID).observeSingleEvent(of: DataEventType.value) { (snapshot) in
+            guard let postDict = snapshot.value as? [String: AnyObject], let ownerID = postDict["ownerID"] as? String else { return }
+            Database.fetchUser(ownerID) { (user) in
+                let aPost = Post(postID, user: user, postDictionary: postDict)
+                completion(aPost)
+            }
+        }
+    }
+    
 }

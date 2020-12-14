@@ -24,9 +24,11 @@ class Post: Equatable {
     var postImageURLString: String!
     var ownerID: String!
     var postID: String!
+    var user: User?
     
-    init(_ postID: String, postDictionary: [String: AnyObject]) {
+    init(_ postID: String, user: User, postDictionary: [String: AnyObject]) {
         self.postID = postID
+        self.user = user
         
         if let safeCaption = postDictionary["caption"] as? String {
             self.caption = safeCaption

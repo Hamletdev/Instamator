@@ -18,3 +18,5 @@ let FOLLOWING_USERS_REF = Database.database().reference().child("Following-Users
 
 let POSTS_REF = DB_REF.child("Posts")
 let USER_POSTS_REF = DB_REF.child("User-Posts")
+
+let USER_FEED_REF = DB_REF.child("User-Feed")

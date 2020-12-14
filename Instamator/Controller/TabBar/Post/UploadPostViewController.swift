@@ -90,6 +90,9 @@ extension UploadPostViewController {
                     let userPostValue = [postID.key!: 1]
                     DB_REF.child("User-Posts").child(currentUID).updateChildValues(userPostValue)
                     
+                    //updated post to owner and to it's followers in USER_FEED_REF
+                    self.addPostToFollowerAlso(with: postID.key!)
+                    
                     //4. add a post to database
                     postID.updateChildValues(postValues) { (error, databaseRef) in
                         if let safeError = error {
@@ -105,6 +108,22 @@ extension UploadPostViewController {
             } // (downloadURL, error)
             
         }  //(storagemetadata, ref)
+        
+    }
+    
+    func addPostToFollowerAlso(with postID: String) {
+        guard let currentUID = Auth.auth().currentUser?.uid else {return}
+        FOLLOWING_USERS_REF.child(currentUID).observe(DataEventType.childAdded) { (snapshot) in
+            let followingID = snapshot.key
+            USER_POSTS_REF.child(followingID).observe(DataEventType.childAdded) { (snapshot2) in
+                let postID = snapshot2.key
+                USER_FEED_REF.child(currentUID).updateChildValues([postID: "followingFeedAdded"])
+            }
+        }
+        USER_POSTS_REF.child(currentUID).observe(DataEventType.childAdded) { (snapshot3) in
+            let postID = snapshot3.key
+            USER_FEED_REF.child(currentUID).updateChildValues([postID: "ownerFeedAdded"])
+        }
         
     }
 }
