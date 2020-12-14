@@ -99,53 +99,6 @@ extension UserProfileViewController: UICollectionViewDelegateFlowLayout {
 }
 
 
-//MARK: - Firebase Operations
-extension UserProfileViewController {
-    
-    func fetchcurrentUserData() {
-        
-        guard let currentUserID = Auth.auth().currentUser?.uid else {
-            return
-        }
-        
-        Database.database().reference().child("Users").child(currentUserID).observe(DataEventType.value) { (snapshot) in
-            guard let currentUserDictionary = snapshot.value as? [String: AnyObject] else { return }
-            
-            let currentUser: User = User(currentUserID, userDictionary: currentUserDictionary)
-            self.headerUser = currentUser
-            self.collectionView.reloadData()
-        }
-    }
-    
-    func fetchPosts(_ userID: String?) {
-        guard let headerUID = userID else {return}
-        USER_POSTS_REF.child(headerUID).observe(DataEventType.childAdded) { (snapshot) in
-            let postID = snapshot.key
-            POSTS_REF.child(postID).observeSingleEvent(of: .value) { (snapshot2) in
-                guard let postDictionary = snapshot2.value as? [String: AnyObject] else {return}
-                let post = Post(postID, postDictionary: postDictionary)
-                if self.totalPost.contains(post) {
-                    return
-                } else if (self.totalPost.count > 0) {
-                    if self.totalPost[0].ownerID != post.ownerID {
-                        self.totalPost = [Post]()
-                        self.totalPost.append(post)
-                        self.collectionView.reloadData()
-                    } else {
-                        self.totalPost.append(post)
-                        self.collectionView.reloadData()
-                    }
-                } else {
-                    self.totalPost.append(post)
-                    self.collectionView.reloadData()
-                }
-            }
-        }
-    }
-    
-}
-
-
 //MARK: - UserProfileHeaderViewDelegate
 extension UserProfileViewController {
     func handleEditFollowButtonTapped(_ header: UserProfileHeaderView) {
@@ -202,6 +155,53 @@ extension UserProfileViewController {
         userLoadedFromSearch = true
         followVC.userID = self.headerUser?.uID
         self.navigationController?.pushViewController(followVC, animated: true)
+    }
+    
+}
+
+
+//MARK: - Firebase Operations
+extension UserProfileViewController {
+    
+    func fetchcurrentUserData() {
+        
+        guard let currentUserID = Auth.auth().currentUser?.uid else {
+            return
+        }
+        
+        Database.database().reference().child("Users").child(currentUserID).observe(DataEventType.value) { (snapshot) in
+            guard let currentUserDictionary = snapshot.value as? [String: AnyObject] else { return }
+            
+            let currentUser: User = User(currentUserID, userDictionary: currentUserDictionary)
+            self.headerUser = currentUser
+            self.collectionView.reloadData()
+        }
+    }
+    
+    func fetchPosts(_ userID: String?) {
+        guard let headerUID = userID else {return}
+        USER_POSTS_REF.child(headerUID).observe(DataEventType.childAdded) { (snapshot) in
+            let postID = snapshot.key
+            POSTS_REF.child(postID).observeSingleEvent(of: .value) { (snapshot2) in
+                guard let postDictionary = snapshot2.value as? [String: AnyObject] else {return}
+                let post = Post(postID, postDictionary: postDictionary)
+                if self.totalPost.contains(post) {
+                    return
+                } else if (self.totalPost.count > 0) {
+                    if self.totalPost[0].ownerID != post.ownerID {
+                        self.totalPost = [Post]()
+                        self.totalPost.append(post)
+                        self.collectionView.reloadData()
+                    } else {
+                        self.totalPost.append(post)
+                        self.collectionView.reloadData()
+                    }
+                } else {
+                    self.totalPost.append(post)
+                    self.collectionView.reloadData()
+                }
+            }
+        }
     }
     
 }

@@ -18,3 +18,10 @@ protocol UserProfileHeaderViewDelegate {
 protocol FollowViewCellDelegate {
     func handleFollowSideButton(_ cell: FollowViewCell)
 }
+
+protocol FeedViewCellDelegate {
+    func handleUsernameButtonTapped(_ cell: FeedViewCell)
+    func handleOptionsButtonTapped(_ cell: FeedViewCell)
+    func handleLikeButtonTapped(_ cell: FeedViewCell)
+    func handleCommentButtonTapped(_ cell: FeedViewCell)
+}
