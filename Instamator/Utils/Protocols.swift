@@ -15,8 +15,8 @@ protocol UserProfileHeaderViewDelegate {
     func handleFollowerLabelTapped(_ header: UserProfileHeaderView)
 }
 
-protocol FollowViewCellDelegate {
-    func handleFollowSideButton(_ cell: FollowViewCell)
+protocol FollowLikeViewCellDelegate {
+    func handleFollowSideButton(_ cell: FollowLikeViewCell)
 }
 
 protocol FeedViewCellDelegate {
@@ -24,4 +24,6 @@ protocol FeedViewCellDelegate {
     func handleOptionsButtonTapped(_ cell: FeedViewCell)
     func handleLikeButtonTapped(_ cell: FeedViewCell)
     func handleCommentButtonTapped(_ cell: FeedViewCell)
+    
+    func bringLikesScreenOfUsers(_ cell: FeedViewCell)
 }

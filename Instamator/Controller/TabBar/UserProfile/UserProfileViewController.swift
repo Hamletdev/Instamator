@@ -151,16 +151,18 @@ extension UserProfileViewController {
     }
     
     func handleFollowingLabelTapped(_ header: UserProfileHeaderView) {
-        let followVC = FollowViewController()
-        followVC.viewOfFollower = false
+        let followVC = FollowLikeViewController()
+//        followVC.viewOfFollower = false
+        followVC.followLikeScreenMode = FollowLikeScreenMode.init(rawValue: 0)
         userLoadedFromSearch = true
         followVC.userID = self.headerUser?.uID
         self.navigationController?.pushViewController(followVC, animated: true)
     }
     
     func handleFollowerLabelTapped(_ header: UserProfileHeaderView) {
-        let followVC = FollowViewController()
-        followVC.viewOfFollower = true
+        let followVC = FollowLikeViewController()
+//        followVC.viewOfFollower = true
+        followVC.followLikeScreenMode = FollowLikeScreenMode.init(rawValue: 1)
         userLoadedFromSearch = true
         followVC.userID = self.headerUser?.uID
         self.navigationController?.pushViewController(followVC, animated: true)

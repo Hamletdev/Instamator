@@ -115,6 +115,7 @@ extension FeedViewController {
 
 //MARK: - FeedViewCellDelegate
 extension FeedViewController: FeedViewCellDelegate {
+    
     func handleUsernameButtonTapped(_ cell: FeedViewCell) {
         let userProfileVC = UserProfileViewController(collectionViewLayout: UICollectionViewFlowLayout())
         guard let post = cell.post else {return}
@@ -128,11 +129,39 @@ extension FeedViewController: FeedViewCellDelegate {
     }
     
     func handleLikeButtonTapped(_ cell: FeedViewCell) {
-        print("C")
+        guard let post = cell.post else {return}
+        guard let currentUser = post.user else {return}
+        guard let postID = post.postID else {return}
+        
+        USER_LIKES_REF.child(currentUser.uID).observe(.value) { (snapshot) in
+            if postID == snapshot.key {
+                post.didLike = true
+            }
+        }
+        
+        if post.didLike {
+            post.updateLikesToDatabase(false) { (likes) in
+                cell.likesLabel.text = "\(likes) likes"
+                cell.likeButton.setImage(#imageLiteral(resourceName: "like_unselected"), for: UIControl.State.normal)
+            }
+        } else {
+            post.updateLikesToDatabase(true) { (likes) in
+                cell.likeButton.setImage(#imageLiteral(resourceName: "like_selected"), for: UIControl.State.normal)
+                cell.likesLabel.text = "\(likes) likes"
+            }
+        }
     }
     
     func handleCommentButtonTapped(_ cell: FeedViewCell) {
         print("D")
+    }
+    
+    func bringLikesScreenOfUsers(_ cell: FeedViewCell) {
+        let followLikeVC = FollowLikeViewController()
+        followLikeVC.followLikeScreenMode = FollowLikeScreenMode.init(rawValue: 2)
+        followLikeVC.userID = cell.post?.user?.uID
+        followLikeVC.postID = cell.post?.postID
+        self.navigationController?.pushViewController(followLikeVC, animated: true)
     }
     
     
@@ -147,11 +176,12 @@ extension FeedViewController {
             let postID = snapshot.key
             Database.fetchPost(with: postID) { (post) in
                 self.totalPost.append(post)
+                self.updateLikesButtonImage(post, for: currentUID)
                 self.totalPost.sort { (p1, p2) -> Bool in
                     return p1.creationDate > p2.creationDate
                 }
-                self.collectionView.refreshControl?.endRefreshing()
                 self.collectionView.reloadData()
+                self.collectionView.refreshControl?.endRefreshing()
             }
         }
     }
@@ -165,6 +195,18 @@ extension FeedViewController {
         self.totalPost.removeAll(keepingCapacity: false)
         self.fetchPosts()
         self.collectionView.reloadData()
+    }
+    
+    func updateLikesButtonImage(_ post: Post, for userID: String) {
+        POST_LIKES_REF.child(post.postID).observe(DataEventType.childAdded) { (snaphot) in
+            if userID == snaphot.key {
+                let cell = self.collectionView.cellForItem(at: IndexPath(row: self.totalPost.firstIndex(of: post)!, section: 0)) as! FeedViewCell
+                cell.likeButton.setImage(#imageLiteral(resourceName: "like_selected"), for: UIControl.State.normal)
+                post.didLike = true
+                print(post.postID)
+                
+            }
+        }
     }
 }
 

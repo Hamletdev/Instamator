@@ -9,9 +9,9 @@
 import UIKit
 import Firebase
 
-class FollowViewCell: UITableViewCell {
+class FollowLikeViewCell: UITableViewCell {
     
-    var delegate: FollowViewCellDelegate?
+    var delegate: FollowLikeViewCellDelegate?
     
     var followUser: User? {
         didSet {
@@ -94,7 +94,7 @@ class FollowViewCell: UITableViewCell {
 
 
 //MARK: - Extra Methods
-extension FollowViewCell {
+extension FollowLikeViewCell {
    @objc func followSideButtonTapped() {
     delegate?.handleFollowSideButton(self)
     }

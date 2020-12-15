@@ -1,5 +1,5 @@
 //
-//  FollowViewController.swift
+//  FollowLikeViewController.swift
 //  Instamator
 //
 //  Created by Amit Chaudhary on 12/12/20.
@@ -11,20 +11,25 @@ import Firebase
 
 fileprivate let reuseIdentifier = "FollowCell"
 
-class FollowViewController: UITableViewController {
+class FollowLikeViewController: UITableViewController {
     
     var totalUsers = [User]()
     var viewOfFollower = false
     var userID: String?
+    var postID: String?
+    
+    var followLikeScreenMode = FollowLikeScreenMode(rawValue: 0)
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.tableView.register(FollowViewCell.self, forCellReuseIdentifier: reuseIdentifier)
+        self.tableView.register(FollowLikeViewCell.self, forCellReuseIdentifier: reuseIdentifier)
         
-        if viewOfFollower {
+        if followLikeScreenMode?.rawValue == 1 {
             self.navigationItem.title = "Followers"
-        } else {
+        } else if followLikeScreenMode?.rawValue == 0 {
             self.navigationItem.title = "Following"
+        } else if followLikeScreenMode?.rawValue == 2 {
+            self.navigationItem.title = "Likes"
         }
         
         self.tableView.separatorColor = .clear
@@ -50,7 +55,7 @@ class FollowViewController: UITableViewController {
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! FollowViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! FollowLikeViewCell
 
         // Configure the cell...
         cell.delegate = self
@@ -63,10 +68,11 @@ class FollowViewController: UITableViewController {
 
 
 //MARK: - Firebase Operation
-extension FollowViewController {
+extension FollowLikeViewController {
     func fetchTotalUsers() {
+        
         guard let uID = self.userID else {return}
-        if viewOfFollower {
+        if self.followLikeScreenMode?.rawValue == 1 {
             FOLLOWER_USERS_REF.child(uID).observeSingleEvent(of: .value) { (snapshot) in
             
                 guard let allObjects = snapshot.children.allObjects as? [DataSnapshot] else { return }
@@ -81,7 +87,7 @@ extension FollowViewController {
                     }
                 }  //foreac
             }
-        } else {
+        } else if self.followLikeScreenMode?.rawValue == 0 {
             FOLLOWING_USERS_REF.child(uID).observeSingleEvent(of: .value) { (snapshot) in
                 guard let allObjects = snapshot.children.allObjects as? [DataSnapshot] else {return}
                 allObjects.forEach { (snapshot) in
@@ -94,14 +100,22 @@ extension FollowViewController {
                     }
                 }
             }
-        } // else
+        } else if self.followLikeScreenMode?.rawValue == 2 {
+            guard let safePostID = self.postID else {return}
+            POST_LIKES_REF.child(safePostID).observe(DataEventType.childAdded) { (snapshot) in
+                Database.fetchUser(snapshot.key) { (user) in
+                    self.totalUsers.append(user)
+                    self.tableView.reloadData()
+                }
+            }
+        }
     }
 }
 
 
 //MARK: - FollowViewCellDelegate
-extension FollowViewController: FollowViewCellDelegate {
-    func handleFollowSideButton(_ cell: FollowViewCell) {
+extension FollowLikeViewController: FollowLikeViewCellDelegate {
+    func handleFollowSideButton(_ cell: FollowLikeViewCell) {
         guard let cellUser = cell.followUser else {return}
        
         if cellUser.isFollowed {

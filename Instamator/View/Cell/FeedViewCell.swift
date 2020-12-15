@@ -90,10 +90,14 @@ class FeedViewCell: UICollectionViewCell {
         return aButton
     }()
     
-    let likesLabel: UILabel = {
+    lazy var likesLabel: UILabel = {
         let aLabel = UILabel()
         aLabel.text = "3 likes"
         aLabel.font = UIFont.boldSystemFont(ofSize: 12)
+        let likesTap = UITapGestureRecognizer(target: self, action: #selector(likesLabelTapped))
+        likesTap.numberOfTouchesRequired = 1
+        aLabel.isUserInteractionEnabled = true
+        aLabel.addGestureRecognizer(likesTap)
         return aLabel
     }()
     
@@ -184,5 +188,9 @@ extension FeedViewCell {
     
     @objc func commentButtonTapped() {
         self.delegate?.handleCommentButtonTapped(self)
+    }
+    
+    @objc func likesLabelTapped() {
+        self.delegate?.bringLikesScreenOfUsers(self)
     }
 }
