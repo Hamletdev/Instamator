@@ -164,6 +164,25 @@ extension FeedViewController: FeedViewCellDelegate {
         self.navigationController?.pushViewController(followLikeVC, animated: true)
     }
     
+    func handleCurrentUserLikedPost(_ cell: FeedViewCell) {
+        guard let post = cell.post else { return }
+        guard let postId = post.postID else { return }
+        guard let currentUid = Auth.auth().currentUser?.uid else { return }
+        
+        USER_LIKES_REF.child(currentUid).observeSingleEvent(of: .value) { (snapshot) in
+            
+            // check if post id exists in user-like structure
+            if snapshot.hasChild(postId) {
+                post.didLike = true
+                cell.likeButton.setImage(#imageLiteral(resourceName: "like_selected"), for: .normal)
+            } else {
+                post.didLike = false
+                cell.likeButton.setImage(#imageLiteral(resourceName: "like_unselected"), for: .normal)
+            }
+            
+        }
+    }
+    
     
 }
 
@@ -176,10 +195,10 @@ extension FeedViewController {
             let postID = snapshot.key
             Database.fetchPost(with: postID) { (post) in
                 self.totalPost.append(post)
-                self.updateLikesButtonImage(post, for: currentUID)
                 self.totalPost.sort { (p1, p2) -> Bool in
                     return p1.creationDate > p2.creationDate
                 }
+                
                 self.collectionView.reloadData()
                 self.collectionView.refreshControl?.endRefreshing()
             }
@@ -195,18 +214,6 @@ extension FeedViewController {
         self.totalPost.removeAll(keepingCapacity: false)
         self.fetchPosts()
         self.collectionView.reloadData()
-    }
-    
-    func updateLikesButtonImage(_ post: Post, for userID: String) {
-        POST_LIKES_REF.child(post.postID).observe(DataEventType.childAdded) { (snaphot) in
-            if userID == snaphot.key {
-                let cell = self.collectionView.cellForItem(at: IndexPath(row: self.totalPost.firstIndex(of: post)!, section: 0)) as! FeedViewCell
-                cell.likeButton.setImage(#imageLiteral(resourceName: "like_selected"), for: UIControl.State.normal)
-                post.didLike = true
-                print(post.postID)
-                
-            }
-        }
     }
 }
 

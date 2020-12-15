@@ -26,4 +26,5 @@ protocol FeedViewCellDelegate {
     func handleCommentButtonTapped(_ cell: FeedViewCell)
     
     func bringLikesScreenOfUsers(_ cell: FeedViewCell)
+    func handleCurrentUserLikedPost(_ cell: FeedViewCell)
 }

@@ -25,6 +25,7 @@ class FeedViewCell: UICollectionViewCell {
             }
             self.postImageView.loadImage(postImageString)
             self.likesLabel.text = "\(likes) likes"
+            self.updateCurrentUserLikedImage()
         }
     }
     
@@ -52,11 +53,15 @@ class FeedViewCell: UICollectionViewCell {
         return aButton
     }()
     
-    let postImageView: UIImageView = {
+    lazy var postImageView: UIImageView = {
         let aImageView = UIImageView()
         aImageView.contentMode = .scaleAspectFill
         aImageView.clipsToBounds = true
         aImageView.backgroundColor = .lightGray
+        let doubleTap = UITapGestureRecognizer(target: self, action: #selector(likeButtonTapped))
+        doubleTap.numberOfTouchesRequired = 1
+        aImageView.isUserInteractionEnabled = true
+        aImageView.addGestureRecognizer(doubleTap)
         return aImageView
     }()
     
@@ -192,5 +197,9 @@ extension FeedViewCell {
     
     @objc func likesLabelTapped() {
         self.delegate?.bringLikesScreenOfUsers(self)
+    }
+    
+    func updateCurrentUserLikedImage() {
+        self.delegate?.handleCurrentUserLikedPost(self)
     }
 }
