@@ -28,3 +28,8 @@ protocol FeedViewCellDelegate {
     func bringLikesScreenOfUsers(_ cell: FeedViewCell)
     func handleCurrentUserLikedPost(_ cell: FeedViewCell)
 }
+
+protocol NotificationViewCellDelegate {
+    func handlePostNotificationTapped(_ cell: NotificationViewCell)
+    func handleFollowNotificationTapped(_ cell: NotificationViewCell)
+}

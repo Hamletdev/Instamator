@@ -29,6 +29,7 @@
 		DA3C15912588C988002A1A5D /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3C15902588C988002A1A5D /* Enums.swift */; };
 		DA59B46A258679DD00B5882C /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA59B469258679DD00B5882C /* Post.swift */; };
 		DA59B46C2586939600B5882C /* UserProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA59B46B2586939600B5882C /* UserProfileCell.swift */; };
+		DA6F5272258A730B007B4BDF /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA6F5271258A730B007B4BDF /* Notification.swift */; };
 		DA73836B2587650400B33917 /* FeedViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA73836A2587650400B33917 /* FeedViewCell.swift */; };
 		DA79BD1525895BA100A94A97 /* CommentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA79BD1425895BA100A94A97 /* CommentViewController.swift */; };
 		DA79BD1725895BB900A94A97 /* CommentViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA79BD1625895BB900A94A97 /* CommentViewCell.swift */; };
@@ -72,6 +73,7 @@
 		DA3C15902588C988002A1A5D /* Enums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enums.swift; sourceTree = "<group>"; };
 		DA59B469258679DD00B5882C /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		DA59B46B2586939600B5882C /* UserProfileCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileCell.swift; sourceTree = "<group>"; };
+		DA6F5271258A730B007B4BDF /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
 		DA73836A2587650400B33917 /* FeedViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewCell.swift; sourceTree = "<group>"; };
 		DA79BD1425895BA100A94A97 /* CommentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentViewController.swift; sourceTree = "<group>"; };
 		DA79BD1625895BB900A94A97 /* CommentViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentViewCell.swift; sourceTree = "<group>"; };
@@ -194,6 +196,7 @@
 				DAFA11B225837D3C00CAE117 /* User.swift */,
 				DA59B469258679DD00B5882C /* Post.swift */,
 				DA79BD1825895BC900A94A97 /* Comment.swift */,
+				DA6F5271258A730B007B4BDF /* Notification.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -410,6 +413,7 @@
 				DA3C15912588C988002A1A5D /* Enums.swift in Sources */,
 				DA59B46C2586939600B5882C /* UserProfileCell.swift in Sources */,
 				DA2FEE0F25817E5000AEE542 /* SignUpViewController.swift in Sources */,
+				DA6F5272258A730B007B4BDF /* Notification.swift in Sources */,
 				DA73836B2587650400B33917 /* FeedViewCell.swift in Sources */,
 				DAA07383258238820086C442 /* UserProfileViewController.swift in Sources */,
 				DA79BD1725895BB900A94A97 /* CommentViewCell.swift in Sources */,

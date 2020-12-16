@@ -154,8 +154,8 @@ extension FeedViewController: FeedViewCellDelegate {
     
     func handleCommentButtonTapped(_ cell: FeedViewCell) {
         let commentVC = CommentViewController(collectionViewLayout: UICollectionViewFlowLayout())
-        guard let postID = cell.post?.postID else {return}
-        commentVC.postID = postID
+        guard let safePost = cell.post else {return}
+        commentVC.post = safePost
         navigationController?.pushViewController(commentVC, animated: true)
     }
     

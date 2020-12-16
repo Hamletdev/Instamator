@@ -14,3 +14,21 @@ enum FollowLikeScreenMode: Int {
     case followerMode
     case likeMode
 }
+
+enum NotificationType: Int {
+    case likeType
+    case commentType
+    case followType
+    
+    var notificationDescription: String {
+        switch self {
+        case .likeType:
+            return " has liked your post"
+        case .commentType:
+            return " has commented on your post"
+        case .followType:
+            return " has followed you"
+        }
+    }
+    
+}

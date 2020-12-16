@@ -7,16 +7,21 @@
 //
 
 import UIKit
+import Firebase
 
 fileprivate let reUseIdentifier = "NotificationCell"
 
 class NotificationViewController: UITableViewController {
+    
+    var totalNotifications = [Notification]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.title = "Notifications"
         self.tableView.register(NotificationViewCell.self, forCellReuseIdentifier: reUseIdentifier)
         self.tableView.separatorColor = .clear
+        
+        self.fetchNotifications()
 
     }
 
@@ -29,11 +34,13 @@ class NotificationViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 5
+        return totalNotifications.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: reUseIdentifier, for: indexPath) as! NotificationViewCell
+        cell.delegate = self
+        cell.notification = totalNotifications[indexPath.row]
 
         return cell
     }
@@ -41,6 +48,80 @@ class NotificationViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 60
     }
+    
+    
+    //MARK: - UITableViewDelegate
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        //present to notification user profile
+        guard let notificationUser = totalNotifications[indexPath.row].user else {return}
+        let userProfileVC = UserProfileViewController(collectionViewLayout: UICollectionViewFlowLayout())
+        userProfileVC.headerUser = notificationUser
+        self.navigationController?.pushViewController(userProfileVC, animated: true)
+        userLoadedFromSearch = true
+    }
   
 
 }
+
+
+//MARK: - Firebase Data Operations
+extension NotificationViewController {
+    func fetchNotifications() {
+        guard let currentID = Auth.auth().currentUser?.uid else {return}
+        NOTIFICATION_REF.child(currentID).observe(DataEventType.childAdded) { (snapshot) in
+            
+            guard let dictionary = snapshot.value as? [String: AnyObject] else { return }
+             
+            if let userID = dictionary["currentID"] as? String  {
+                Database.fetchUser(userID) { (user) in
+                    if let postID = dictionary["postID"] as? String {
+                        Database.fetchPost(with: postID) { (post) in
+                            let newNotification = Notification(user, post: post, dictionary: dictionary)
+                            self.totalNotifications.append(newNotification)
+                            self.tableView.reloadData()
+                        }
+                    } else {
+                        let newNotification = Notification(user, dictionary: dictionary)
+                        self.totalNotifications.append(newNotification)
+                        self.tableView.reloadData()
+                    }
+                }
+            }
+        }
+    }
+    
+}
+
+
+//MARK: - NotificationViewCellDelegate
+extension NotificationViewController: NotificationViewCellDelegate {
+    func handlePostNotificationTapped(_ cell: NotificationViewCell) {
+        guard let notificationPost = cell.notification?.posT else {return}
+        let feedVC = FeedViewController(collectionViewLayout: UICollectionViewFlowLayout())
+        feedVC.viewSinglePost = true
+        feedVC.feedPost = notificationPost
+        navigationController?.pushViewController(feedVC, animated: true)
+    }
+    
+    func handleFollowNotificationTapped(_ cell: NotificationViewCell) {
+        guard let cellUser = cell.notification?.user else {return}
+
+         if cellUser.isFollowed {
+             cellUser.unfollow()
+             cell.followButton.setTitle("Follow", for: UIControl.State.normal)
+             cell.followButton.setTitleColor(.white, for: UIControl.State.normal)
+             cell.followButton.backgroundColor = UIColor(red: 17/255, green: 154/255, blue: 237/255, alpha: 1)
+         } else {
+             cellUser.follow()
+             cell.followButton.setTitle("Following", for: UIControl.State.normal)
+             cell.followButton.setTitleColor(.black, for: UIControl.State.normal)
+             cell.followButton.layer.borderWidth = 0.5
+             cell.followButton.layer.borderColor = UIColor.lightGray.cgColor
+             cell.followButton.backgroundColor = .white
+         }
+    }
+    
+    
+}
+
+

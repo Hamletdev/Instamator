@@ -14,7 +14,7 @@ fileprivate let reUseIdentifier = "CommentCell"
 
 class CommentViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     
-    var postID: String?
+    var post: Post?
     var totalComment = [Comment]()
     
     let commentTextField: UITextField = {
@@ -116,19 +116,20 @@ class CommentViewController: UICollectionViewController, UICollectionViewDelegat
 //MARK: - Post Firebase
 extension CommentViewController {
     @objc func handleUploadCommentToDB() {
-        guard let currentID = Auth.auth().currentUser?.uid, let commentText = self.commentTextField.text, let postID = self.postID else {return}
+        guard let currentID = Auth.auth().currentUser?.uid, let commentText = self.commentTextField.text, let postID = self.post?.postID else {return}
         let creationDate = Int(NSDate().timeIntervalSince1970)
         let dictionaryValue = ["commentText": commentText, "creationDate": creationDate, "uID": currentID] as [String: AnyObject]
         COMMENT_REF.child(postID).childByAutoId().updateChildValues(dictionaryValue) { (error, ref) in
             if let safeError = error {
                 print(safeError)
             }
+            self.postCommentNotificationsToDatabase()
             self.commentTextField.text = nil
         }
     }
     
     func fetchComments() {
-        guard let postID = self.postID else {
+        guard let postID = self.post?.postID else {
             return
         }
         COMMENT_REF.child(postID).observe(DataEventType.childAdded) { (snapshot) in
@@ -140,4 +141,13 @@ extension CommentViewController {
             }
         }
     }
+    
+    func postCommentNotificationsToDatabase() {
+        //postID, creationDate, type =0, checked = false, post.ownerID, currentID
+        guard let currentID = Auth.auth().currentUser?.uid else {return}
+        guard let safePost = self.post, let safePostID = safePost.postID else {return}
+        let dictionaryValues = ["creationDate": Int(NSDate().timeIntervalSince1970), "currentID": currentID, "postID": safePostID, "type": COMMENT_VALUE, "checked": false] as [String: AnyObject]
+        NOTIFICATION_REF.child(safePost.ownerID).childByAutoId().updateChildValues(dictionaryValues)
+    }
+    
 }

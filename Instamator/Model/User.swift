@@ -40,6 +40,7 @@ class User {
         self.isFollowed = true
         FOLLOWING_USERS_REF.child(currentuID).updateChildValues([uID: "Added"])
         FOLLOWER_USERS_REF.child(uID).updateChildValues([currentuID: "Added"])
+        self.postFollowNotificationsToDatabase()
         
         //Add post of another user to current user
         USER_POSTS_REF.child(uID).observe(DataEventType.childAdded) { (snapshot) in
@@ -75,6 +76,14 @@ class User {
                 completion(self.isFollowed)
             }
         }
+    }
+    
+    func postFollowNotificationsToDatabase() {
+        // user.ownerID, creationDate, currentID, postID? = nil, type, checked
+        guard let currentID = Auth.auth().currentUser?.uid else {return}
+        let creationDate = Int(NSDate().timeIntervalSince1970)
+        let dictionaryValues = ["creationDate": creationDate, "currentID": currentID, "type": FOLLOW_VALUE, "checked": 0] as [String: AnyObject]
+        NOTIFICATION_REF.child(self.uID).childByAutoId().updateChildValues(dictionaryValues)
     }
     
     
