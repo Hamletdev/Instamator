@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		39FF863E1B295C46EAECA7B1 /* Pods_Instamator.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E0F091BCF4F39FE419EAC98 /* Pods_Instamator.framework */; };
+		DA1FF1B12589F9780042CBDD /* NotificationViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1FF1B02589F9780042CBDD /* NotificationViewCell.swift */; };
 		DA2CC01B258615D600BEB8D7 /* SelectPhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2CC01A258615D600BEB8D7 /* SelectPhotoViewController.swift */; };
 		DA2CC01D2586170C00BEB8D7 /* SelectPhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2CC01C2586170C00BEB8D7 /* SelectPhotoCell.swift */; };
 		DA2CC01F2586176400BEB8D7 /* SelectPhotoHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2CC01E2586176400BEB8D7 /* SelectPhotoHeaderView.swift */; };
@@ -48,6 +49,7 @@
 		5D3D754F69671AB84C32A4D3 /* Pods-Instamator.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Instamator.release.xcconfig"; path = "Target Support Files/Pods-Instamator/Pods-Instamator.release.xcconfig"; sourceTree = "<group>"; };
 		9E0F091BCF4F39FE419EAC98 /* Pods_Instamator.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Instamator.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9E62F404D976AB154EAE4D44 /* Pods-Instamator.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Instamator.debug.xcconfig"; path = "Target Support Files/Pods-Instamator/Pods-Instamator.debug.xcconfig"; sourceTree = "<group>"; };
+		DA1FF1B02589F9780042CBDD /* NotificationViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewCell.swift; sourceTree = "<group>"; };
 		DA2CC01A258615D600BEB8D7 /* SelectPhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPhotoViewController.swift; sourceTree = "<group>"; };
 		DA2CC01C2586170C00BEB8D7 /* SelectPhotoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPhotoCell.swift; sourceTree = "<group>"; };
 		DA2CC01E2586176400BEB8D7 /* SelectPhotoHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPhotoHeaderView.swift; sourceTree = "<group>"; };
@@ -113,6 +115,14 @@
 				9E0F091BCF4F39FE419EAC98 /* Pods_Instamator.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		DA1FF1AF2589F9210042CBDD /* Notification */ = {
+			isa = PBXGroup;
+			children = (
+				DAA07380258238660086C442 /* NotificationViewController.swift */,
+			);
+			path = Notification;
 			sourceTree = "<group>";
 		};
 		DA2CC019258613BA00BEB8D7 /* Post */ = {
@@ -229,28 +239,20 @@
 		DA738369258764A200B33917 /* Feed */ = {
 			isa = PBXGroup;
 			children = (
+				DA79BD1425895BA100A94A97 /* CommentViewController.swift */,
 				DAA0737A258237E60086C442 /* FeedViewController.swift */,
 			);
 			path = Feed;
 			sourceTree = "<group>";
 		};
-		DA79BD1325895B8200A94A97 /* Comment */ = {
-			isa = PBXGroup;
-			children = (
-				DA79BD1425895BA100A94A97 /* CommentViewController.swift */,
-			);
-			path = Comment;
-			sourceTree = "<group>";
-		};
 		DAA073792582379E0086C442 /* TabBar */ = {
 			isa = PBXGroup;
 			children = (
-				DA79BD1325895B8200A94A97 /* Comment */,
 				DA738369258764A200B33917 /* Feed */,
 				DA2CC019258613BA00BEB8D7 /* Post */,
 				DAA073772582367F0086C442 /* MainTabViewController.swift */,
 				DAA0737C2582380E0086C442 /* SearchViewController.swift */,
-				DAA07380258238660086C442 /* NotificationViewController.swift */,
+				DA1FF1AF2589F9210042CBDD /* Notification */,
 				DA2CC021258631E600BEB8D7 /* UserProfile */,
 			);
 			path = TabBar;
@@ -267,6 +269,7 @@
 				DA59B46B2586939600B5882C /* UserProfileCell.swift */,
 				DA73836A2587650400B33917 /* FeedViewCell.swift */,
 				DA79BD1625895BB900A94A97 /* CommentViewCell.swift */,
+				DA1FF1B02589F9780042CBDD /* NotificationViewCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -412,6 +415,7 @@
 				DA79BD1725895BB900A94A97 /* CommentViewCell.swift in Sources */,
 				DA2CC01D2586170C00BEB8D7 /* SelectPhotoCell.swift in Sources */,
 				DAA073782582367F0086C442 /* MainTabViewController.swift in Sources */,
+				DA1FF1B12589F9780042CBDD /* NotificationViewCell.swift in Sources */,
 				DA79BD1925895BC900A94A97 /* Comment.swift in Sources */,
 				DA3696302584DF0A00887944 /* Protocols.swift in Sources */,
 				DA36963525852A0600887944 /* FollowLikeViewCell.swift in Sources */,
