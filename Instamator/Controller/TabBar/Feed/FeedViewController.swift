@@ -153,7 +153,10 @@ extension FeedViewController: FeedViewCellDelegate {
     }
     
     func handleCommentButtonTapped(_ cell: FeedViewCell) {
-        print("D")
+        let commentVC = CommentViewController(collectionViewLayout: UICollectionViewFlowLayout())
+        guard let postID = cell.post?.postID else {return}
+        commentVC.postID = postID
+        navigationController?.pushViewController(commentVC, animated: true)
     }
     
     func bringLikesScreenOfUsers(_ cell: FeedViewCell) {
