@@ -100,7 +100,7 @@ class FeedViewCell: UICollectionViewCell {
         return aButton
     }()
     
-    let messageButton: UIButton = {
+    lazy var messageButton: UIButton = {
         let aButton = UIButton(type: .system)
         aButton.setImage(#imageLiteral(resourceName: "send2"), for: UIControl.State.normal)
         aButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 12)
@@ -218,7 +218,12 @@ extension FeedViewCell {
         self.delegate?.bringLikesScreenOfUsers(self)
     }
     
+    @objc func messagesButtonTapped() {
+        self.delegate?.handleShowMessages(self)
+       }
+    
     func updateCurrentUserLikedImage() {
         self.delegate?.handleCurrentUserLikedPost(self)
     }
+
 }

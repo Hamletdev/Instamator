@@ -83,7 +83,7 @@ extension FeedViewController {
         self.navigationItem.title = "Feed"
         if !viewSinglePost {
             self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Log Out", style: UIBarButtonItem.Style.plain, target: self, action: #selector(handleLogOut))
-            self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "send2"), style: UIBarButtonItem.Style.plain, target: self, action: #selector(handleShowMessages))
+            self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "send2"), style: UIBarButtonItem.Style.plain, target: self, action: #selector(handleShowMessagesFromNavBar))
         }
     }
     
@@ -107,14 +107,20 @@ extension FeedViewController {
         self.present(alertController, animated: true, completion: nil)
     }
     
-    @objc func handleShowMessages() {
-        
+    @objc func handleShowMessagesFromNavBar() {
+        let messagesUI = MessagesUIViewController()
+        navigationController?.pushViewController(messagesUI, animated: true)
     }
 }
 
 
 //MARK: - FeedViewCellDelegate
 extension FeedViewController: FeedViewCellDelegate {
+   @objc func handleShowMessages(_ cell: FeedViewCell) {
+        let messagesUI = MessagesUIViewController()
+    navigationController?.pushViewController(messagesUI, animated: true)
+    }
+    
     
     func handleUsernameButtonTapped(_ cell: FeedViewCell) {
         let userProfileVC = UserProfileViewController(collectionViewLayout: UICollectionViewFlowLayout())
@@ -138,7 +144,7 @@ extension FeedViewController: FeedViewCellDelegate {
                 post.didLike = true
             }
         }
-        
+        print(post.didLike)
         if post.didLike {
             post.updateLikesToDatabase(false) { (likes) in
                 cell.likesLabel.text = "\(likes) likes"
@@ -185,6 +191,8 @@ extension FeedViewController: FeedViewCellDelegate {
             
         }
     }
+    
+    
     
     
 }

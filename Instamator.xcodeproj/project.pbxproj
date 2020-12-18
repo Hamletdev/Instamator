@@ -42,6 +42,9 @@
 		DAA07381258238660086C442 /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA07380258238660086C442 /* NotificationViewController.swift */; };
 		DAA07383258238820086C442 /* UserProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA07382258238820086C442 /* UserProfileViewController.swift */; };
 		DAA0738625824A6E0086C442 /* UserProfileHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA0738525824A6E0086C442 /* UserProfileHeaderView.swift */; };
+		DAC8B88F258C8B1C001B83F7 /* SearchPostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC8B88E258C8B1C001B83F7 /* SearchPostCell.swift */; };
+		DAC8B892258C97D0001B83F7 /* MessagesUIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC8B891258C97D0001B83F7 /* MessagesUIViewController.swift */; };
+		DAC8B894258C97E7001B83F7 /* MessagesUIViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC8B893258C97E7001B83F7 /* MessagesUIViewCell.swift */; };
 		DAFA11B325837D3C00CAE117 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFA11B225837D3C00CAE117 /* User.swift */; };
 		DAFA11B52583DCE700CAE117 /* UIImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFA11B42583DCE700CAE117 /* UIImageView.swift */; };
 		DAFA11B72583E28500CAE117 /* SearchViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFA11B62583E28500CAE117 /* SearchViewCell.swift */; };
@@ -87,6 +90,9 @@
 		DAA07380258238660086C442 /* NotificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewController.swift; sourceTree = "<group>"; };
 		DAA07382258238820086C442 /* UserProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileViewController.swift; sourceTree = "<group>"; };
 		DAA0738525824A6E0086C442 /* UserProfileHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileHeaderView.swift; sourceTree = "<group>"; };
+		DAC8B88E258C8B1C001B83F7 /* SearchPostCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPostCell.swift; sourceTree = "<group>"; };
+		DAC8B891258C97D0001B83F7 /* MessagesUIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesUIViewController.swift; sourceTree = "<group>"; };
+		DAC8B893258C97E7001B83F7 /* MessagesUIViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesUIViewCell.swift; sourceTree = "<group>"; };
 		DAFA11B225837D3C00CAE117 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		DAFA11B42583DCE700CAE117 /* UIImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageView.swift; sourceTree = "<group>"; };
 		DAFA11B62583E28500CAE117 /* SearchViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewCell.swift; sourceTree = "<group>"; };
@@ -254,6 +260,7 @@
 		DAA073792582379E0086C442 /* TabBar */ = {
 			isa = PBXGroup;
 			children = (
+				DAC8B890258C963C001B83F7 /* Messages */,
 				DA738369258764A200B33917 /* Feed */,
 				DA2CC019258613BA00BEB8D7 /* Post */,
 				DAA073772582367F0086C442 /* MainTabViewController.swift */,
@@ -276,8 +283,18 @@
 				DA73836A2587650400B33917 /* FeedViewCell.swift */,
 				DA79BD1625895BB900A94A97 /* CommentViewCell.swift */,
 				DA1FF1B02589F9780042CBDD /* NotificationViewCell.swift */,
+				DAC8B88E258C8B1C001B83F7 /* SearchPostCell.swift */,
+				DAC8B893258C97E7001B83F7 /* MessagesUIViewCell.swift */,
 			);
 			path = Cell;
+			sourceTree = "<group>";
+		};
+		DAC8B890258C963C001B83F7 /* Messages */ = {
+			isa = PBXGroup;
+			children = (
+				DAC8B891258C97D0001B83F7 /* MessagesUIViewController.swift */,
+			);
+			path = Messages;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -398,7 +415,9 @@
 			files = (
 				DA79BD1525895BA100A94A97 /* CommentViewController.swift in Sources */,
 				DAFA11B325837D3C00CAE117 /* User.swift in Sources */,
+				DAC8B892258C97D0001B83F7 /* MessagesUIViewController.swift in Sources */,
 				DAA07381258238660086C442 /* NotificationViewController.swift in Sources */,
+				DAC8B894258C97E7001B83F7 /* MessagesUIViewCell.swift in Sources */,
 				DA2FEE0D2581720800AEE542 /* UIView.swift in Sources */,
 				DA59B46A258679DD00B5882C /* Post.swift in Sources */,
 				DA369633258529AF00887944 /* FollowLikeViewController.swift in Sources */,
@@ -413,6 +432,7 @@
 				DAA0737F2582384D0086C442 /* UploadPostViewController.swift in Sources */,
 				DA2FEDF525816E4A00AEE542 /* SceneDelegate.swift in Sources */,
 				DAA0738625824A6E0086C442 /* UserProfileHeaderView.swift in Sources */,
+				DAC8B88F258C8B1C001B83F7 /* SearchPostCell.swift in Sources */,
 				DAA0737B258237E60086C442 /* FeedViewController.swift in Sources */,
 				DA3C15912588C988002A1A5D /* Enums.swift in Sources */,
 				DA59B46C2586939600B5882C /* UserProfileCell.swift in Sources */,
