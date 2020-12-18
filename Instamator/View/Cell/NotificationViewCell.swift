@@ -25,12 +25,14 @@ class NotificationViewCell: UITableViewCell {
             self.constructPostLabel()
             
             if (notification?.notificationType.rawValue != 2) {
+                followButton.removeFromSuperview()
                 self.addSubview(postImageView)
                 postImageView.anchorView(top: nil, left: nil, bottom: nil, right: self.rightAnchor, topPadding: 0, leftPadding: 0, bottomPadding: 0, rightPadding: 8, width: 35, height: 35)
                 postImageView.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
                 postImageView.loadImage((notification?.posT?.postImageURLString)!)
                 plRightAnchor = postImageView.leftAnchor
             } else if notification?.notificationType.rawValue == 2 {
+                self.postImageView.removeFromSuperview()
                 self.addSubview(followButton)
                 followButton.anchorView(top: nil, left: nil, bottom: nil, right: self.rightAnchor, topPadding: 0, leftPadding: 0, bottomPadding: 0, rightPadding: 10, width: 80, height: 25)
                 followButton.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
@@ -38,6 +40,7 @@ class NotificationViewCell: UITableViewCell {
                 plRightAnchor = followButton.leftAnchor
             }
             self.constructFollowButton()
+            self.reloadInputViews()
         }
     }
     
@@ -107,19 +110,20 @@ class NotificationViewCell: UITableViewCell {
 //MARK: - Extra Methods
 extension NotificationViewCell {
     @objc func followButtonTapped() {
-        self.delegate?.handleFollowNotificationTapped(self)
+        self.delegate?.followNotificationButtonTapped(self)
     }
     
     @objc func postImageViewTapped() {
-        self.delegate?.handlePostNotificationTapped(self)
+        self.delegate?.postNotificationImageTapped(self)
     }
     
     func constructPostLabel() {
         guard let safeNotification = self.notification else {return}
+        let timeStamp = self.getNotificationTimeStamp()
         
         let attributedString = NSMutableAttributedString(string: safeNotification.user.userName, attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 12)])
         attributedString.append(NSAttributedString(string: safeNotification.notificationType.notificationDescription, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 12)]))
-        attributedString.append(NSAttributedString(string: " 2d.", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 12), NSAttributedString.Key.foregroundColor: UIColor.lightGray]))
+        attributedString.append(NSAttributedString(string: " \(timeStamp!)", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 12), NSAttributedString.Key.foregroundColor: UIColor.lightGray]))
         self.postLabel.attributedText = attributedString
     }
     
@@ -139,4 +143,15 @@ extension NotificationViewCell {
             }
         })
     }
+    
+    func getNotificationTimeStamp() -> String? {
+        guard let safeNotification = self.notification else {return nil}
+        let dateFormatter = DateComponentsFormatter()
+        dateFormatter.allowedUnits = [.second, .minute, .hour, .day, .quarter, .year]
+        dateFormatter.maximumUnitCount = 1
+        dateFormatter.unitsStyle = .abbreviated
+        let currentDate = Date()
+        return dateFormatter.string(from: safeNotification.creationDate, to: currentDate)
+    }
+    
 }

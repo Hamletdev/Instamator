@@ -86,5 +86,4 @@ class User {
         NOTIFICATION_REF.child(self.uID).childByAutoId().updateChildValues(dictionaryValues)
     }
     
-    
 }

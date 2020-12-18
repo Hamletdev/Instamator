@@ -13,6 +13,8 @@ fileprivate let reUseIdentifier = "NotificationCell"
 
 class NotificationViewController: UITableViewController {
     
+    var timer: Timer?
+    
     var totalNotifications = [Notification]()
 
     override func viewDidLoad() {
@@ -78,12 +80,12 @@ extension NotificationViewController {
                         Database.fetchPost(with: postID) { (post) in
                             let newNotification = Notification(user, post: post, dictionary: dictionary)
                             self.totalNotifications.append(newNotification)
-                            self.tableView.reloadData()
+                            self.sortNotificationsByDate()
                         }
                     } else {
                         let newNotification = Notification(user, dictionary: dictionary)
                         self.totalNotifications.append(newNotification)
-                        self.tableView.reloadData()
+                        self.sortNotificationsByDate()
                     }
                 }
             }
@@ -95,7 +97,7 @@ extension NotificationViewController {
 
 //MARK: - NotificationViewCellDelegate
 extension NotificationViewController: NotificationViewCellDelegate {
-    func handlePostNotificationTapped(_ cell: NotificationViewCell) {
+    func postNotificationImageTapped(_ cell: NotificationViewCell) {
         guard let notificationPost = cell.notification?.posT else {return}
         let feedVC = FeedViewController(collectionViewLayout: UICollectionViewFlowLayout())
         feedVC.viewSinglePost = true
@@ -103,7 +105,7 @@ extension NotificationViewController: NotificationViewCellDelegate {
         navigationController?.pushViewController(feedVC, animated: true)
     }
     
-    func handleFollowNotificationTapped(_ cell: NotificationViewCell) {
+    func followNotificationButtonTapped(_ cell: NotificationViewCell) {
         guard let cellUser = cell.notification?.user else {return}
 
          if cellUser.isFollowed {
@@ -121,7 +123,30 @@ extension NotificationViewController: NotificationViewCellDelegate {
          }
     }
     
-    
+}
+
+
+//MARK: - Helper
+extension NotificationViewController {
+    @objc func sortNotificationsByDate() {
+           self.totalNotifications.sort { (notif1, notif2) -> Bool in
+               return notif1.creationDate > notif2.creationDate
+           }
+       self.tableView.reloadData()
+       }
+
+
+//       @objc func handleRefresh() {
+//              self.totalNotifications.removeAll()
+//              self.tableView.reloadData()
+//              fetchNotifications()
+//              refresher.endRefreshing()
+//          }
+//
+//       func configureRefreshControl() {
+//              refresher.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
+//              self.tableView.refreshControl = refresher
+//          }
 }
 
 

@@ -18,14 +18,33 @@ class FeedViewCell: UICollectionViewCell {
         didSet {
             guard let userID = post?.ownerID, let postImageString = post?.postImageURLString, let likes = post?.likes else {return}
             Database.fetchUser(userID) { (user) in
-                self.profileImageView.loadImage(user.profileImageURLString)
                 self.usernameButton.setTitle(user.userName, for: UIControl.State.normal)
                 self.constructPostCaption(user)
+               
+                self.profileImageView.loadImage(user.profileImageURLString)
                 
+             //set profileImageView
+//                if let profileImageString = user.profileImageURLString {
+//                UIImage.loadImageUsingCacheWithUrlString(profileImageString) { image in
+//                    if profileImageString == user.profileImageURLString {
+//                        self.profileImageView.image = image
+//                    }
+//                }
+//            } else {
+//                self.profileImageView.image = nil
+//            }
             }
-            self.postImageView.loadImage(postImageString)
+                
             self.likesLabel.text = "\(likes) likes"
             self.updateCurrentUserLikedImage()
+            
+            UIImage.loadImageUsingCacheWithUrlString(postImageString) { image in
+                // set the image only when we are still displaying the content for the image we finished downloading
+                if postImageString == self.post?.postImageURLString {
+                    self.postImageView.image = image
+                }
+            }
+            
         }
     }
     

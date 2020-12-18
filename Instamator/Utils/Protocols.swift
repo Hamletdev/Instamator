@@ -30,6 +30,6 @@ protocol FeedViewCellDelegate {
 }
 
 protocol NotificationViewCellDelegate {
-    func handlePostNotificationTapped(_ cell: NotificationViewCell)
-    func handleFollowNotificationTapped(_ cell: NotificationViewCell)
+    func postNotificationImageTapped(_ cell: NotificationViewCell)
+    func followNotificationButtonTapped(_ cell: NotificationViewCell)
 }

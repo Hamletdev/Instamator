@@ -12,7 +12,7 @@ import UIKit
 class Comment {
     var commentText: String!
     var userID: String!
-    var creationDate: Int!
+    var creationDate: Date!
     var user: User!
     
     init(_ user: User, dictionary: [String: AnyObject]) {
@@ -23,8 +23,8 @@ class Comment {
         if let safeUserID = dictionary["uID"] as? String {
             self.userID = safeUserID
         }
-        if let safeCreationDate = dictionary["creationDate"] as? Int {
-            self.creationDate = safeCreationDate
+        if let safeCreationDate = dictionary["creationDate"] as? Double {
+            self.creationDate = Date(timeIntervalSince1970: safeCreationDate)
         }
     }
 }

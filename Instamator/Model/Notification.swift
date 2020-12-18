@@ -12,7 +12,7 @@ import UIKit
 class Notification {
     var user: User!
     var posT: Post?
-    var creationDate: Int!
+    var creationDate: Date!
     var didCheck = false
     var type: Int!
     var currentID: String!
@@ -24,8 +24,8 @@ class Notification {
         if let safePost = post {
             self.posT = safePost
         }
-        if let safeCreationDate = dictionary["creationDate"] as? Int {
-            self.creationDate = safeCreationDate
+        if let safeCreationDate = dictionary["creationDate"] as? Double {
+            self.creationDate = Date(timeIntervalSince1970: safeCreationDate)
         }
         if let safeType = dictionary["type"] as? Int {
             self.type = safeType

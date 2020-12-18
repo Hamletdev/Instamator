@@ -20,7 +20,7 @@ class Post: Equatable {
     }
     
     var caption: String!
-    var creationDate: Int!
+    var creationDate: Date!
     var likes: Int!
     var postImageURLString: String!
     var ownerID: String!
@@ -35,8 +35,8 @@ class Post: Equatable {
         if let safeCaption = postDictionary["caption"] as? String {
             self.caption = safeCaption
         }
-        if let safeCreationDate = postDictionary["creationDate"] as? Int {
-            self.creationDate = safeCreationDate
+        if let safeCreationDate = postDictionary["creationDate"] as? Double {
+             self.creationDate = Date(timeIntervalSince1970: safeCreationDate)
         }
         if let safeLikes = postDictionary["likes"] as? Int {
             self.likes = safeLikes
