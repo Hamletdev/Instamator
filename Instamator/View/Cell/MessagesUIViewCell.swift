@@ -8,8 +8,30 @@
 
 import Foundation
 import UIKit
+import Firebase
 
 class MessagesUIViewCell: UITableViewCell {
+    
+    var message: Message? {
+        didSet {
+            guard let messageText = self.message?.messageText else {return}
+            self.detailTextLabel?.text = messageText
+            if let seconds = message?.creationDate {
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateFormat = "hh:mm:ss"
+                self.timeStampLabel.text = dateFormatter.string(from: seconds)
+            }
+            
+            guard let partnerID = self.message?.getPartnerID() else {
+                return
+            }
+            Database.fetchUser(partnerID) { (user) in
+                self.profileImageView.loadImage(user.profileImageURLString)
+                self.textLabel?.text = user.fullName
+            }
+            
+        }
+    }
     
     let profileImageView: UIImageView = {
         let aImageView = UIImageView()

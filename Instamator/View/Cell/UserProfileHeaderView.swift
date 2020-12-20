@@ -170,9 +170,7 @@ class UserProfileHeaderView: UICollectionReusableView, UICollectionViewDelegateF
 //MARK: - Extra Methods
 extension UserProfileHeaderView {
     func titleEditFollowButton() {
-        guard let currentuserID = Auth.auth().currentUser?.uid else {
-            return
-        }
+        guard let currentuserID = Auth.auth().currentUser?.uid else {return}
         if self.user?.uID == currentuserID {
             self.editProfileButton.setTitle("Edit Profile", for: .normal)
         } else {

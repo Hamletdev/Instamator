@@ -158,7 +158,6 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reUsePostIdentifier, for: indexPath) as! SearchPostCell
-        print(totalPosts.count)
         cell.post = totalPosts[indexPath.row]
         return cell
     }

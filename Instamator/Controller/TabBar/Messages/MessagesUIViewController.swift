@@ -8,15 +8,23 @@
 
 import Foundation
 import UIKit
+import Firebase
 
 fileprivate let reUseIdentifier = "MessagesCell"
 
 class MessagesUIViewController: UITableViewController {
     
+    var messageDict = [String: Message]()
+    
+    var messagestoID = [Message]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         constructNavigationBar()
         self.tableView.register(MessagesUIViewCell.self, forCellReuseIdentifier: reUseIdentifier)
+        
+        self.tableView.tableFooterView = UIView(frame: .zero)
+        self.fetchMessages()
     }
     
     
@@ -26,18 +34,60 @@ class MessagesUIViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        return messagestoID.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = self.tableView.dequeueReusableCell(withIdentifier: reUseIdentifier, for: indexPath) as! MessagesUIViewCell
-        cell.detailTextLabel?.text = "Username"
-        cell.textLabel?.text = "User"
+        cell.message = messagestoID[indexPath.row]
         return cell
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 60
+    }
+    
+    
+    //MARK: - UITableViewDelegate
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let message = messagestoID[indexPath.row]
+        guard let partnerID = message.getPartnerID() else {return}
+        Database.fetchUser(partnerID) { (user) in
+            self.showChatController(forUser: user)
+        }
+    }
+}
+
+
+//MARK: - Firebase Operations
+extension MessagesUIViewController {
+    
+    func fetchMessages() {
+           guard let currentFromUID = Auth.auth().currentUser?.uid else {return}
+           self.messagestoID.removeAll()
+           self.messageDict.removeAll()
+           self.tableView.reloadData()
+           
+           USER_MESSAGES_REF.child(currentFromUID).observe(DataEventType.childAdded) { (snapshot) in
+               let userID = snapshot.key
+               USER_MESSAGES_REF.child(currentFromUID).child(userID).observe(DataEventType.childAdded) { (snapshot) in
+                   let messageID = snapshot.key
+                   self.fetchMessages(messageID: messageID)
+               }
+           }
+       }
+    
+    func fetchMessages(messageID: String) {
+        MESSAGES_REF.child(messageID).observe(.value) { (snapshot) in
+            guard let messageDictValues = snapshot.value as? [String: AnyObject] else {return}
+            let message = Message(dictionary: messageDictValues)
+            let partnerID = message.getPartnerID()
+            
+            self.messageDict[partnerID!] = message
+            self.messagestoID = Array(self.messageDict.values)
+            
+            self.tableView.reloadData()
+        }
     }
 }
 
@@ -46,10 +96,22 @@ class MessagesUIViewController: UITableViewController {
 extension MessagesUIViewController {
     func constructNavigationBar() {
         navigationItem.title = "Messages"
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.add, target: self, action: #selector(handleNewMessage))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.add, target: self, action: #selector(handlePlusButton))
     }
     
-    @objc func handleNewMessage() {
-        
+    @objc func handlePlusButton() {
+        let newMessageVC = NewMessageViewController()
+        newMessageVC.messagesUIVC = self
+        let navigationController = UINavigationController(rootViewController: newMessageVC)
+        navigationController.modalPresentationStyle = .fullScreen
+        self.present(navigationController, animated: true, completion: nil)
+    }
+    
+    func showChatController(forUser: User) {
+        let chatVC = ChatViewController(collectionViewLayout: UICollectionViewFlowLayout())
+        chatVC.user = forUser
+        self.navigationController?.pushViewController(chatVC, animated: true)
     }
 }
+
+

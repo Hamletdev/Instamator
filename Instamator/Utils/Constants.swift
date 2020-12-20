@@ -28,6 +28,9 @@ let COMMENT_REF = DB_REF.child("Comment-Post")
 
 let NOTIFICATION_REF = DB_REF.child("Notifications")
 
+let MESSAGES_REF = DB_REF.child("Messages")
+let USER_MESSAGES_REF = DB_REF.child("User-Messages")
+
 
 let LIKE_VALUE = 0
 let COMMENT_VALUE = 1

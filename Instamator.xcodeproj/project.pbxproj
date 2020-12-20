@@ -45,6 +45,11 @@
 		DAC8B88F258C8B1C001B83F7 /* SearchPostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC8B88E258C8B1C001B83F7 /* SearchPostCell.swift */; };
 		DAC8B892258C97D0001B83F7 /* MessagesUIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC8B891258C97D0001B83F7 /* MessagesUIViewController.swift */; };
 		DAC8B894258C97E7001B83F7 /* MessagesUIViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC8B893258C97E7001B83F7 /* MessagesUIViewCell.swift */; };
+		DAC8B896258E5DEB001B83F7 /* NewMessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC8B895258E5DEB001B83F7 /* NewMessageViewController.swift */; };
+		DAC8B898258E5F2B001B83F7 /* NewMessageViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC8B897258E5F2B001B83F7 /* NewMessageViewCell.swift */; };
+		DAC8B89A258E6A10001B83F7 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC8B899258E6A10001B83F7 /* Message.swift */; };
+		DAC8B89C258E6BF8001B83F7 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC8B89B258E6BF8001B83F7 /* ChatViewController.swift */; };
+		DAC8B89E258E6C1F001B83F7 /* ChatViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC8B89D258E6C1F001B83F7 /* ChatViewCell.swift */; };
 		DAFA11B325837D3C00CAE117 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFA11B225837D3C00CAE117 /* User.swift */; };
 		DAFA11B52583DCE700CAE117 /* UIImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFA11B42583DCE700CAE117 /* UIImageView.swift */; };
 		DAFA11B72583E28500CAE117 /* SearchViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFA11B62583E28500CAE117 /* SearchViewCell.swift */; };
@@ -93,6 +98,11 @@
 		DAC8B88E258C8B1C001B83F7 /* SearchPostCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPostCell.swift; sourceTree = "<group>"; };
 		DAC8B891258C97D0001B83F7 /* MessagesUIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesUIViewController.swift; sourceTree = "<group>"; };
 		DAC8B893258C97E7001B83F7 /* MessagesUIViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesUIViewCell.swift; sourceTree = "<group>"; };
+		DAC8B895258E5DEB001B83F7 /* NewMessageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewMessageViewController.swift; sourceTree = "<group>"; };
+		DAC8B897258E5F2B001B83F7 /* NewMessageViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewMessageViewCell.swift; sourceTree = "<group>"; };
+		DAC8B899258E6A10001B83F7 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
+		DAC8B89B258E6BF8001B83F7 /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
+		DAC8B89D258E6C1F001B83F7 /* ChatViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewCell.swift; sourceTree = "<group>"; };
 		DAFA11B225837D3C00CAE117 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		DAFA11B42583DCE700CAE117 /* UIImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageView.swift; sourceTree = "<group>"; };
 		DAFA11B62583E28500CAE117 /* SearchViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewCell.swift; sourceTree = "<group>"; };
@@ -205,6 +215,7 @@
 				DA59B469258679DD00B5882C /* Post.swift */,
 				DA79BD1825895BC900A94A97 /* Comment.swift */,
 				DA6F5271258A730B007B4BDF /* Notification.swift */,
+				DAC8B899258E6A10001B83F7 /* Message.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -285,6 +296,8 @@
 				DA1FF1B02589F9780042CBDD /* NotificationViewCell.swift */,
 				DAC8B88E258C8B1C001B83F7 /* SearchPostCell.swift */,
 				DAC8B893258C97E7001B83F7 /* MessagesUIViewCell.swift */,
+				DAC8B897258E5F2B001B83F7 /* NewMessageViewCell.swift */,
+				DAC8B89D258E6C1F001B83F7 /* ChatViewCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -293,6 +306,8 @@
 			isa = PBXGroup;
 			children = (
 				DAC8B891258C97D0001B83F7 /* MessagesUIViewController.swift */,
+				DAC8B895258E5DEB001B83F7 /* NewMessageViewController.swift */,
+				DAC8B89B258E6BF8001B83F7 /* ChatViewController.swift */,
 			);
 			path = Messages;
 			sourceTree = "<group>";
@@ -422,17 +437,22 @@
 				DA59B46A258679DD00B5882C /* Post.swift in Sources */,
 				DA369633258529AF00887944 /* FollowLikeViewController.swift in Sources */,
 				DA2FEE0B2581704000AEE542 /* LogInViewController.swift in Sources */,
+				DAC8B89A258E6A10001B83F7 /* Message.swift in Sources */,
 				DAA0737D2582380E0086C442 /* SearchViewController.swift in Sources */,
 				DA2FEDF325816E4A00AEE542 /* AppDelegate.swift in Sources */,
 				DAFA11B72583E28500CAE117 /* SearchViewCell.swift in Sources */,
 				DA2CC01F2586176400BEB8D7 /* SelectPhotoHeaderView.swift in Sources */,
+				DAC8B89E258E6C1F001B83F7 /* ChatViewCell.swift in Sources */,
 				DA2CC01B258615D600BEB8D7 /* SelectPhotoViewController.swift in Sources */,
 				DA6F5274258AA281007B4BDF /* UIImage.swift in Sources */,
 				DA36962E2584DEFD00887944 /* Constants.swift in Sources */,
+				DAC8B896258E5DEB001B83F7 /* NewMessageViewController.swift in Sources */,
+				DAC8B89C258E6BF8001B83F7 /* ChatViewController.swift in Sources */,
 				DAA0737F2582384D0086C442 /* UploadPostViewController.swift in Sources */,
 				DA2FEDF525816E4A00AEE542 /* SceneDelegate.swift in Sources */,
 				DAA0738625824A6E0086C442 /* UserProfileHeaderView.swift in Sources */,
 				DAC8B88F258C8B1C001B83F7 /* SearchPostCell.swift in Sources */,
+				DAC8B898258E5F2B001B83F7 /* NewMessageViewCell.swift in Sources */,
 				DAA0737B258237E60086C442 /* FeedViewController.swift in Sources */,
 				DA3C15912588C988002A1A5D /* Enums.swift in Sources */,
 				DA59B46C2586939600B5882C /* UserProfileCell.swift in Sources */,
