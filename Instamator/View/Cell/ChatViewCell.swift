@@ -65,10 +65,10 @@ class ChatViewCell: UICollectionViewCell {
         self.addSubview(textView)
         self.addSubview(profileImageView)
         
-        profileImageView.anchorView(top: nil, left: self.leftAnchor, bottom: self.bottomAnchor, right: nil, topPadding: 0, leftPadding: 8, bottomPadding: 4, rightPadding: 0, width: 30, height: 30)
+        profileImageView.anchorView(top: nil, left: self.leftAnchor, bottom: self.bottomAnchor, right: nil, topPadding: 0, leftPadding: 8, bottomPadding: -10, rightPadding: 0, width: 30, height: 30)
         profileImageView.layer.cornerRadius = 15
         
-        bubbleViewRightAnchor = bubbleView.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -8)
+        bubbleViewRightAnchor = bubbleView.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -10)
         bubbleViewRightAnchor?.isActive = true
         bubbleViewLeftAnchor = bubbleView.leftAnchor.constraint(equalTo: profileImageView.rightAnchor, constant: 8)
         bubbleViewLeftAnchor?.isActive = false

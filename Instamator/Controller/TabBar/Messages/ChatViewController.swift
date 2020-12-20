@@ -181,11 +181,12 @@ extension ChatViewController {
         guard let currentFromID = Auth.auth().currentUser?.uid else {return}
         
         cell.bubbleViewWidthAnchor?.constant = estimeateFrameForText(messageText: message.messageText).width + 20
-        cell.frame.size.height = estimeateFrameForText(messageText: message.messageText).height
+        //cell.frame.size.height = estimeateFrameForText(messageText: message.messageText).height
         
         if message.fromID == currentFromID {
             cell.bubbleViewRightAnchor?.isActive = true
             cell.bubbleViewLeftAnchor?.isActive = false
+            print(cell.bubbleView.frame.height)
             cell.bubbleView.backgroundColor = UIColor(red: 0/255, green: 137/255, blue: 249/255, alpha: 1)
             cell.textView.textColor = .white
             cell.profileImageView.isHidden = true
