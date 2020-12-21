@@ -9,5 +9,6 @@ target 'Instamator' do
   pod 'Firebase/Auth'
   pod 'Firebase/Storage'
   pod 'Firebase/Database'
+  pod 'ActiveLabel'
 
 end

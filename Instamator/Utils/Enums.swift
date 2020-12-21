@@ -19,6 +19,8 @@ enum NotificationType: Int {
     case likeType
     case commentType
     case followType
+    case commentMention
+    case postMention
     
     var notificationDescription: String {
         switch self {
@@ -28,6 +30,10 @@ enum NotificationType: Int {
             return " has commented on your post"
         case .followType:
             return " has followed you"
+        case .commentMention:
+            return " has mentioned you in a comment"
+        case .postMention:
+            return " has mentioned you in a post"
         }
     }
     

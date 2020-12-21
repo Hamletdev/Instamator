@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import ActiveLabel
 
 private let reuseIdentifier = "FeedViewCell"
 
@@ -64,6 +65,9 @@ class FeedViewController: UICollectionViewController, UICollectionViewDelegateFl
             cell.post = totalPost[indexPath.row]
         }
         
+        self.usernameActiveLabelTapped(cell: cell)
+        self.hashTagActiveLabelTapped(cell: cell)
+        
         return cell
     }
     
@@ -116,9 +120,9 @@ extension FeedViewController {
 
 //MARK: - FeedViewCellDelegate
 extension FeedViewController: FeedViewCellDelegate {
-   @objc func handleShowMessages(_ cell: FeedViewCell) {
+    @objc func handleShowMessages(_ cell: FeedViewCell) {
         let messagesUI = MessagesUIViewController()
-    navigationController?.pushViewController(messagesUI, animated: true)
+        navigationController?.pushViewController(messagesUI, animated: true)
     }
     
     
@@ -173,7 +177,7 @@ extension FeedViewController: FeedViewCellDelegate {
         self.navigationController?.pushViewController(followLikeVC, animated: true)
     }
     
-    func handleCurrentUserLikedPost(_ cell: FeedViewCell) {
+    func handleCurrentUserLikedPostOnRefresh(_ cell: FeedViewCell) {
         guard let post = cell.post else { return }
         guard let postId = post.postID else { return }
         guard let currentUid = Auth.auth().currentUser?.uid else { return }
@@ -192,8 +196,25 @@ extension FeedViewController: FeedViewCellDelegate {
         }
     }
     
+    func hashTagActiveLabelTapped(cell: FeedViewCell) {
+        cell.captionLabel.handleHashtagTap { (hashTag) in
+            let htVC = HashTagViewController(collectionViewLayout: UICollectionViewFlowLayout())
+            htVC.hashTag = hashTag
+            self.navigationController?.pushViewController(htVC, animated: true)
+        }
+    }
     
-    
+    func usernameActiveLabelTapped(cell: FeedViewCell) {
+        guard let user = cell.post?.user, let username = user.userName else {return}
+        let customType = ActiveType.custom(pattern: "\(username)\\b")
+        cell.captionLabel.handleCustomTap(for: customType) { (_) in
+            
+            let userProfileController = UserProfileViewController(collectionViewLayout: UICollectionViewFlowLayout())
+            userProfileController.headerUser = user
+            userLoadedFromSearch = true
+            self.navigationController?.pushViewController(userProfileController, animated: true)
+        }
+    }
     
 }
 

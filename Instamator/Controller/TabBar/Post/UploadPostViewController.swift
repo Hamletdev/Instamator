@@ -91,7 +91,8 @@ extension UploadPostViewController {
                     DB_REF.child("User-Posts").child(currentUID).updateChildValues(userPostValue)
                     
                     //updated post to owner and to it's followers in USER_FEED_REF
-                    self.addPostToFollowerAlso(with: postID.key!)
+                    self.addPostsFromFollowingUsers(with: postID.key!)
+                    self.uploadHashTagToDatabase(postID: postID.key!)
                     
                     //4. add a post to database
                     postID.updateChildValues(postValues) { (error, databaseRef) in
@@ -111,7 +112,7 @@ extension UploadPostViewController {
         
     }
     
-    func addPostToFollowerAlso(with postID: String) {
+    func addPostsFromFollowingUsers(with postID: String) {
         guard let currentUID = Auth.auth().currentUser?.uid else {return}
         FOLLOWING_USERS_REF.child(currentUID).observe(DataEventType.childAdded) { (snapshot) in
             let followingID = snapshot.key
@@ -125,6 +126,19 @@ extension UploadPostViewController {
             USER_FEED_REF.child(currentUID).updateChildValues([postID: "ownerFeedAdded"])
         }
         
+    }
+    
+    func uploadHashTagToDatabase(postID: String) {
+        guard let caption = self.captionTextView.text else {return}
+        let words = caption.components(separatedBy: .whitespacesAndNewlines)
+        for var word in words {
+            if word.hasPrefix("#") {
+                word = word.trimmingCharacters(in: .punctuationCharacters)
+                word = word.trimmingCharacters(in: .symbols)
+                let hashTagValues = [postID: "hashtagpostID"]
+                HASHTAG_POSTS_REF.child(word.lowercased()).updateChildValues(hashTagValues)
+            }
+        }
     }
 }
 

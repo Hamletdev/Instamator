@@ -48,7 +48,7 @@ class CommentViewController: UICollectionViewController, UICollectionViewDelegat
         self.postButton.centerYAnchor.constraint(equalTo: cv.centerYAnchor).isActive = true
         
         cv.addSubview(self.commentTextField)
-        self.commentTextField.anchorView(top: cv.topAnchor, left: cv.leftAnchor, bottom: cv.bottomAnchor, right: self.postButton.leftAnchor, topPadding: 0, leftPadding: 8, bottomPadding: 0, rightPadding: 0, width: 0, height: 0)
+        self.commentTextField.anchorView(top: cv.topAnchor, left: cv.leftAnchor, bottom: cv.bottomAnchor, right: self.postButton.leftAnchor, topPadding: 0, leftPadding: 8, bottomPadding: 0, rightPadding: 2, width: 0, height: 0)
         
         cv.addSubview(self.separatorView)
         self.separatorView.anchorView(top: cv.topAnchor, left: cv.leftAnchor, bottom: nil, right: cv.rightAnchor, topPadding: 0, leftPadding: 0, bottomPadding: 0, rightPadding: 0, width: 0, height: 0.6)
@@ -91,7 +91,8 @@ class CommentViewController: UICollectionViewController, UICollectionViewDelegat
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = self.collectionView.dequeueReusableCell(withReuseIdentifier: reUseIdentifier, for: indexPath) as! CommentViewCell
         cell.comment = totalComment[indexPath.row]
-        
+        self.handleHashtagTapped(cell: cell)
+        self.handleMentionTapped(cell: cell)
         return cell
     }
     
@@ -123,8 +124,37 @@ extension CommentViewController {
             if let safeError = error {
                 print(safeError)
             }
-            self.postCommentNotificationsToDatabase()
+            
+            if commentText.contains("@") {
+                self.uploadMentionedCommentNotificationToDB()
+            } else {
+              self.uploadCommentNotificationsToDatabase()
+            }
             self.commentTextField.text = nil
+        }
+    }
+    
+    func uploadMentionedCommentNotificationToDB() {
+        guard let currentID = Auth.auth().currentUser?.uid, let commentText = self.commentTextField.text, let postID = self.post?.postID  else {return}
+        let creationDate = Int(Date().timeIntervalSince1970)
+        let words = commentText.components(separatedBy: .whitespacesAndNewlines)
+        for var word in words {
+            if word.hasPrefix("@") {
+                word = word.trimmingCharacters(in: .punctuationCharacters)
+                word = word.trimmingCharacters(in: .symbols)
+                USERS_REF.observe(DataEventType.childAdded) { (snapshot) in
+                    let userID = snapshot.key
+                    USERS_REF.child(userID).observeSingleEvent(of: .value) { (snapshot) in
+                        guard let userDictionary = snapshot.value as? [String: AnyObject] else {return}
+                        if word == userDictionary["username"] as? String {
+                            let notifValues = ["creationDate": creationDate, "currentID": currentID, "postID": postID, "type": COMMENTMENTION_INT_VALUE, "checked": false] as [String: AnyObject]
+                            if userID != currentID {
+                                NOTIFICATION_REF.child(userID).childByAutoId().updateChildValues(notifValues)
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
     
@@ -142,7 +172,7 @@ extension CommentViewController {
         }
     }
     
-    func postCommentNotificationsToDatabase() {
+    func uploadCommentNotificationsToDatabase() {
         //postID, creationDate, type =0, checked = false, post.ownerID, currentID
         guard let currentID = Auth.auth().currentUser?.uid else {return}
         guard let safePost = self.post, let safePostID = safePost.postID else {return}
@@ -150,4 +180,34 @@ extension CommentViewController {
         NOTIFICATION_REF.child(safePost.ownerID).childByAutoId().updateChildValues(dictionaryValues)
     }
     
+}
+
+
+//MARK: - Helper Methods
+extension CommentViewController {
+    func handleHashtagTapped(cell: CommentViewCell) {
+        cell.commentLabel.handleHashtagTap { (hashTag) in
+            let htvc = HashTagViewController(collectionViewLayout: UICollectionViewFlowLayout())
+            htvc.hashTag = hashTag
+            self.navigationController?.pushViewController(htvc, animated: true)
+        }
+    }
+    
+    func handleMentionTapped(cell: CommentViewCell) {
+        cell.commentLabel.handleMentionTap { (mentionedUsername) in
+            USERS_REF.observe(DataEventType.childAdded) { (snapshot) in
+                let userID = snapshot.key
+                USERS_REF.child(userID).observeSingleEvent(of: DataEventType.value) { (snapshot) in
+//                    guard let userDictionary = snapshot.value as? [String: AnyObject] else {return}
+//                    let username = userDictionary["username"] as? String
+                    Database.fetchUser(userID) { (user) in
+                        let userProfileController = UserProfileViewController(collectionViewLayout: UICollectionViewFlowLayout())
+                        userProfileController.headerUser = user
+                        userLoadedFromSearch = true
+                        self.navigationController?.pushViewController(userProfileController, animated: true)
+                    }
+                }
+            }
+        }
+    }
 }

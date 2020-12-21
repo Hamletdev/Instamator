@@ -31,7 +31,10 @@ let NOTIFICATION_REF = DB_REF.child("Notifications")
 let MESSAGES_REF = DB_REF.child("Messages")
 let USER_MESSAGES_REF = DB_REF.child("User-Messages")
 
+let HASHTAG_POSTS_REF = DB_REF.child("Hashtag-Posts")
 
 let LIKE_VALUE = 0
 let COMMENT_VALUE = 1
 let FOLLOW_VALUE = 2
+let COMMENTMENTION_INT_VALUE = 3
+let POSTMENTION_INT_VALUE = 4

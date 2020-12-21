@@ -53,6 +53,8 @@
 		DAFA11B325837D3C00CAE117 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFA11B225837D3C00CAE117 /* User.swift */; };
 		DAFA11B52583DCE700CAE117 /* UIImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFA11B42583DCE700CAE117 /* UIImageView.swift */; };
 		DAFA11B72583E28500CAE117 /* SearchViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFA11B62583E28500CAE117 /* SearchViewCell.swift */; };
+		DAFC9E2A258FF5D700E43639 /* HashTagViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFC9E29258FF5D700E43639 /* HashTagViewController.swift */; };
+		DAFC9E2C258FF5F000E43639 /* HashTagViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFC9E2B258FF5F000E43639 /* HashTagViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -106,6 +108,8 @@
 		DAFA11B225837D3C00CAE117 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		DAFA11B42583DCE700CAE117 /* UIImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageView.swift; sourceTree = "<group>"; };
 		DAFA11B62583E28500CAE117 /* SearchViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewCell.swift; sourceTree = "<group>"; };
+		DAFC9E29258FF5D700E43639 /* HashTagViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HashTagViewController.swift; sourceTree = "<group>"; };
+		DAFC9E2B258FF5F000E43639 /* HashTagViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HashTagViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -223,10 +227,9 @@
 		DA2FEE082581700200AEE542 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				DA3696312585299600887944 /* Others */,
+				DAFC9E28258FF5B200E43639 /* HashTag */,
+				DA3696312585299600887944 /* SignUp */,
 				DAA073792582379E0086C442 /* TabBar */,
-				DA2FEE0A2581704000AEE542 /* LogInViewController.swift */,
-				DA2FEE0E25817E5000AEE542 /* SignUpViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -252,11 +255,13 @@
 			path = Utils;
 			sourceTree = "<group>";
 		};
-		DA3696312585299600887944 /* Others */ = {
+		DA3696312585299600887944 /* SignUp */ = {
 			isa = PBXGroup;
 			children = (
+				DA2FEE0E25817E5000AEE542 /* SignUpViewController.swift */,
+				DA2FEE0A2581704000AEE542 /* LogInViewController.swift */,
 			);
-			path = Others;
+			path = SignUp;
 			sourceTree = "<group>";
 		};
 		DA738369258764A200B33917 /* Feed */ = {
@@ -298,6 +303,7 @@
 				DAC8B893258C97E7001B83F7 /* MessagesUIViewCell.swift */,
 				DAC8B897258E5F2B001B83F7 /* NewMessageViewCell.swift */,
 				DAC8B89D258E6C1F001B83F7 /* ChatViewCell.swift */,
+				DAFC9E2B258FF5F000E43639 /* HashTagViewCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -310,6 +316,14 @@
 				DAC8B89B258E6BF8001B83F7 /* ChatViewController.swift */,
 			);
 			path = Messages;
+			sourceTree = "<group>";
+		};
+		DAFC9E28258FF5B200E43639 /* HashTag */ = {
+			isa = PBXGroup;
+			children = (
+				DAFC9E29258FF5D700E43639 /* HashTagViewController.swift */,
+			);
+			path = HashTag;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -438,6 +452,7 @@
 				DA369633258529AF00887944 /* FollowLikeViewController.swift in Sources */,
 				DA2FEE0B2581704000AEE542 /* LogInViewController.swift in Sources */,
 				DAC8B89A258E6A10001B83F7 /* Message.swift in Sources */,
+				DAFC9E2C258FF5F000E43639 /* HashTagViewCell.swift in Sources */,
 				DAA0737D2582380E0086C442 /* SearchViewController.swift in Sources */,
 				DA2FEDF325816E4A00AEE542 /* AppDelegate.swift in Sources */,
 				DAFA11B72583E28500CAE117 /* SearchViewCell.swift in Sources */,
@@ -467,6 +482,7 @@
 				DA79BD1925895BC900A94A97 /* Comment.swift in Sources */,
 				DA3696302584DF0A00887944 /* Protocols.swift in Sources */,
 				DA36963525852A0600887944 /* FollowLikeViewCell.swift in Sources */,
+				DAFC9E2A258FF5D700E43639 /* HashTagViewController.swift in Sources */,
 				DA369637258546FB00887944 /* Database.swift in Sources */,
 				DAFA11B52583DCE700CAE117 /* UIImageView.swift in Sources */,
 			);

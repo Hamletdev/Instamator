@@ -8,17 +8,15 @@
 
 import Foundation
 import UIKit
+import ActiveLabel
 
 class CommentViewCell: UICollectionViewCell {
     
     var comment: Comment? {
         didSet {
-            guard let commentUser = self.comment?.user, let profileImageStringOfUser = commentUser.profileImageURLString, let commentText = self.comment?.commentText, let username = commentUser.userName, let timeStamp = comment?.creationDate else {return}
+            guard let commentUser = self.comment?.user, let profileImageStringOfUser = commentUser.profileImageURLString else {return}
             self.profileImageView.loadImage(profileImageStringOfUser)
-            let attributedString = NSMutableAttributedString(string: username, attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 12)])
-            attributedString.append(NSAttributedString(string: " \(commentText)", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 12)]))
-            attributedString.append(NSAttributedString(string: " \(timeStamp)", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 12), NSAttributedString.Key.foregroundColor: UIColor.lightGray]))
-            self.commentTextView.attributedText = attributedString
+            self.constructCommentLabel()
         }
     }
     
@@ -30,15 +28,12 @@ class CommentViewCell: UICollectionViewCell {
         return aImageView
     }()
     
-    let commentTextView: UITextView = {
-        let aTextView = UITextView()
-        aTextView.font = UIFont.systemFont(ofSize: 12)
-        let attributedString = NSMutableAttributedString(string: "Audrey", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 12)])
-        attributedString.append(NSAttributedString(string: " Comment Text from Audrey On Post", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 12)]))
-        attributedString.append(NSAttributedString(string: " 2d.", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 12), NSAttributedString.Key.foregroundColor: UIColor.lightGray]))
-        aTextView.attributedText = attributedString
-        aTextView.isScrollEnabled = false
-        return aTextView
+    let commentLabel: ActiveLabel = {
+        let commLabel = ActiveLabel()
+        commLabel.enabledTypes = [.mention, .hashtag]
+        commLabel.font = UIFont.systemFont(ofSize: 13)
+        commLabel.numberOfLines = 0
+        return commLabel
     }()
     
     override init(frame: CGRect) {
@@ -49,11 +44,41 @@ class CommentViewCell: UICollectionViewCell {
         profileImageView.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
         profileImageView.layer.cornerRadius = 18
         
-        self.addSubview(commentTextView)
-        commentTextView.anchorView(top: self.topAnchor, left: profileImageView.rightAnchor, bottom: self.bottomAnchor, right: self.rightAnchor, topPadding: 4, leftPadding: 8, bottomPadding: 4, rightPadding: 4, width: 0, height: 0)
+        self.addSubview(commentLabel)
+        commentLabel.anchorView(top: self.topAnchor, left: profileImageView.rightAnchor, bottom: self.bottomAnchor, right: self.rightAnchor, topPadding: 4, leftPadding: 8, bottomPadding: 4, rightPadding: 4, width: 0, height: 0)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+}
+
+
+//MARK: - Helper Methods
+extension CommentViewCell {
+    func constructCommentLabel() {
+        guard let comment = self.comment, let user = comment.user, let username = user.userName, let commentText = comment.commentText else {return}
+        let customType = ActiveType.custom(pattern: "^\(username)\\b")
+        
+        commentLabel.enabledTypes = [.hashtag, .mention, .url, customType]
+        
+        commentLabel.configureLinkAttribute = { (type, attributes, isSelected) in
+            var atts = attributes
+            
+            switch type {
+            case .custom:
+                atts[NSAttributedString.Key.font] = UIFont.boldSystemFont(ofSize: 12)
+            default: ()
+            }
+            return atts
+        }
+        
+        commentLabel.customize { (label) in
+            label.text = "\(username) \(commentText)"
+            label.customColor[customType] = .black
+            label.font = UIFont.systemFont(ofSize: 12)
+            label.textColor = .black
+            label.numberOfLines = 0
+        }
     }
 }

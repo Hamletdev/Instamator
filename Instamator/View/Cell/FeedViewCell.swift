@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import Firebase
+import ActiveLabel
 
 class FeedViewCell: UICollectionViewCell {
     
@@ -20,21 +21,21 @@ class FeedViewCell: UICollectionViewCell {
             Database.fetchUser(userID) { (user) in
                 self.usernameButton.setTitle(user.userName, for: UIControl.State.normal)
                 self.constructPostCaption(user)
-               
+                
                 self.profileImageView.loadImage(user.profileImageURLString)
                 
-             //set profileImageView
-//                if let profileImageString = user.profileImageURLString {
-//                UIImage.loadImageUsingCacheWithUrlString(profileImageString) { image in
-//                    if profileImageString == user.profileImageURLString {
-//                        self.profileImageView.image = image
-//                    }
-//                }
-//            } else {
-//                self.profileImageView.image = nil
-//            }
+                //set profileImageView
+                //                if let profileImageString = user.profileImageURLString {
+                //                UIImage.loadImageUsingCacheWithUrlString(profileImageString) { image in
+                //                    if profileImageString == user.profileImageURLString {
+                //                        self.profileImageView.image = image
+                //                    }
+                //                }
+                //            } else {
+                //                self.profileImageView.image = nil
+                //            }
             }
-                
+            
             self.likesLabel.text = "\(likes) likes"
             self.updateCurrentUserLikedImage()
             
@@ -49,12 +50,12 @@ class FeedViewCell: UICollectionViewCell {
     }
     
     let profileImageView: UIImageView = {
-           let aImageView = UIImageView()
-           aImageView.contentMode = .scaleAspectFill
-           aImageView.clipsToBounds = true
-           aImageView.backgroundColor = .lightGray
-           return aImageView
-       }()
+        let aImageView = UIImageView()
+        aImageView.contentMode = .scaleAspectFill
+        aImageView.clipsToBounds = true
+        aImageView.backgroundColor = .lightGray
+        return aImageView
+    }()
     
     lazy var usernameButton: UIButton = {
         let aButton = UIButton(type: .system)
@@ -125,12 +126,9 @@ class FeedViewCell: UICollectionViewCell {
         return aLabel
     }()
     
-    let captionLabel: UILabel = {
-        let aLabel = UILabel()
-        let attributedText = NSMutableAttributedString(string: "username", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 12)])
-        attributedText.append(NSAttributedString(string: ": Some Test Caption", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 12)]))
-        aLabel.attributedText = attributedText
-        aLabel.font = UIFont.boldSystemFont(ofSize: 12)
+    let captionLabel: ActiveLabel = {
+        let aLabel = ActiveLabel()
+        aLabel.numberOfLines = 0
         return aLabel
     }()
     
@@ -169,7 +167,7 @@ class FeedViewCell: UICollectionViewCell {
         captionLabel.anchorView(top: self.likesLabel.bottomAnchor, left: self.leftAnchor, bottom: nil, right: self.rightAnchor, topPadding: 6, leftPadding: 10, bottomPadding: 0, rightPadding: 8, width: 0, height: 0)
         
         self.addSubview(historyTimeLabel)
-        historyTimeLabel.anchorView(top: self.captionLabel.bottomAnchor, left: self.leftAnchor, bottom: nil, right: nil, topPadding: 6, leftPadding: 10, bottomPadding: 0, rightPadding: 0, width: 0, height: 0)
+        historyTimeLabel.anchorView(top: self.captionLabel.bottomAnchor, left: self.leftAnchor, bottom: nil, right: nil, topPadding: -1, leftPadding: 10, bottomPadding: 0, rightPadding: 0, width: 0, height: 0)
     }
     
     func constructActionButtons() {
@@ -192,10 +190,36 @@ class FeedViewCell: UICollectionViewCell {
 //MARK: - Extra Methods
 extension FeedViewCell {
     func constructPostCaption(_ user: User) {
-        guard let post = self.post else {return}
-        let attributedText = NSMutableAttributedString(string: "\(user.userName!)", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 12)])
-        attributedText.append(NSAttributedString(string: ": \(post.caption!)", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 12)]))
-        self.captionLabel.attributedText = attributedText
+        guard let post = self.post else { return }
+        guard let caption = post.caption else { return }
+        guard let username = post.user?.userName else { return }
+        
+        // look for username as pattern
+        let customType = ActiveType.custom(pattern: "^\(username)\\b")
+        
+        // enable username as custom type
+        captionLabel.enabledTypes = [.mention, .hashtag, .url, customType]
+        
+        // configure usnerame link attributes
+        captionLabel.configureLinkAttribute = { (type, attributes, isSelected) in
+            var atts = attributes
+            
+            switch type {
+            case .custom:
+                atts[NSAttributedString.Key.font] = UIFont.boldSystemFont(ofSize: 12)
+            default: ()
+            }
+            return atts
+        }
+        
+        captionLabel.customize { (label) in
+            label.text = "\(username) \(caption)"
+            label.customColor[customType] = .blue
+            label.font = UIFont.systemFont(ofSize: 12)
+            label.textColor = .black
+            captionLabel.numberOfLines = 2
+        }
+        self.historyTimeLabel.text = "2 Days Ago"
     }
     
     @objc func usernameButtonTapped() {
@@ -220,10 +244,10 @@ extension FeedViewCell {
     
     @objc func messagesButtonTapped() {
         self.delegate?.handleShowMessages(self)
-       }
+    }
     
     func updateCurrentUserLikedImage() {
-        self.delegate?.handleCurrentUserLikedPost(self)
+        self.delegate?.handleCurrentUserLikedPostOnRefresh(self)
     }
-
+    
 }
