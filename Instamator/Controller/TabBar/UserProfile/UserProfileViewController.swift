@@ -18,6 +18,8 @@ class UserProfileViewController: UICollectionViewController, UserProfileHeaderVi
     
     var totalPost = [Post]()
     
+    let refreshControl = UIRefreshControl()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.collectionView.backgroundColor = .white
@@ -26,6 +28,20 @@ class UserProfileViewController: UICollectionViewController, UserProfileHeaderVi
         self.collectionView!.register(UserProfileCell.self, forCellWithReuseIdentifier: reuseIdentifier)
         self.collectionView!.register(UserProfileHeaderView.self, forSupplementaryViewOfKind:UICollectionView.elementKindSectionHeader, withReuseIdentifier: headerIdentifier)
         
+        constructRefresher()
+    }
+    
+    func constructRefresher() {
+        self.refreshControl.addTarget(self, action: #selector(handleRefresh), for: UIControl.Event.valueChanged)
+        self.collectionView.refreshControl = self.refreshControl
+    }
+    
+    @objc func handleRefresh() {
+        self.totalPost.removeAll(keepingCapacity: false)
+        self.collectionView.refreshControl?.endRefreshing()
+        self.fetchPosts(self.headerUser?.uID)
+        self.fetchcurrentUserData()
+        self.collectionView.reloadData()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -78,6 +94,7 @@ class UserProfileViewController: UICollectionViewController, UserProfileHeaderVi
         let feedVC = FeedViewController(collectionViewLayout: UICollectionViewFlowLayout())
         feedVC.viewSinglePost = true
         feedVC.feedPost = totalPost[indexPath.row]
+        feedVC.userProfileVC = self
         navigationController?.pushViewController(feedVC, animated: true)
     }
     

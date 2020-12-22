@@ -36,5 +36,9 @@ enum NotificationType: Int {
             return " has mentioned you in a post"
         }
     }
-    
+}
+
+enum ButtonAction: Int {
+    case uploadPost
+    case editPost
 }

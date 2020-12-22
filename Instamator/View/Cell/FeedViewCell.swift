@@ -151,9 +151,13 @@ class FeedViewCell: UICollectionViewCell {
         usernameButton.anchorView(top: nil, left: self.profileImageView.rightAnchor, bottom: nil, right: nil, topPadding: 0, leftPadding: 10, bottomPadding: 0, rightPadding: 0, width: 0, height: 0)
         usernameButton.centerYAnchor.constraint(equalTo: profileImageView.centerYAnchor).isActive = true
         
-        self.addSubview(optionsButton)
-        optionsButton.anchorView(top: nil, left: nil, bottom: nil, right: self.rightAnchor, topPadding: 0, leftPadding: 0, bottomPadding: 0, rightPadding: 10, width: 0, height: 0)
-        optionsButton.centerYAnchor.constraint(equalTo: self.profileImageView.centerYAnchor).isActive = true
+        if let safePost = self.post  {
+            if safePost.ownerID == Auth.auth().currentUser?.uid {
+                self.addSubview(optionsButton)
+                optionsButton.anchorView(top: nil, left: nil, bottom: nil, right: self.rightAnchor, topPadding: 0, leftPadding: 0, bottomPadding: 0, rightPadding: 10, width: 0, height: 0)
+                optionsButton.centerYAnchor.constraint(equalTo: self.profileImageView.centerYAnchor).isActive = true
+            }
+        }
         
         self.addSubview(postImageView)
         postImageView.anchorView(top: profileImageView.bottomAnchor, left: self.leftAnchor, bottom: nil, right: self.rightAnchor, topPadding: 2, leftPadding: 0, bottomPadding: 0, rightPadding: 0, width: 0, height: 0)
@@ -183,6 +187,16 @@ class FeedViewCell: UICollectionViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func layoutSubviews() {
+        if let safePost = self.post  {
+            if safePost.ownerID == Auth.auth().currentUser?.uid {
+                self.addSubview(optionsButton)
+                optionsButton.anchorView(top: nil, left: nil, bottom: nil, right: self.rightAnchor, topPadding: 0, leftPadding: 0, bottomPadding: 0, rightPadding: 10, width: 0, height: 0)
+                optionsButton.centerYAnchor.constraint(equalTo: self.profileImageView.centerYAnchor).isActive = true
+            }
+        }
     }
 }
 
@@ -219,7 +233,7 @@ extension FeedViewCell {
             label.textColor = .black
             captionLabel.numberOfLines = 2
         }
-        self.historyTimeLabel.text = "2 Days Ago"
+        self.historyTimeLabel.text = post.creationDate.timeAgoToDisplay()
     }
     
     @objc func usernameButtonTapped() {

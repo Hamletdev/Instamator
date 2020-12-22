@@ -116,6 +116,7 @@ extension SelectPhotoViewController {
     @objc func handleNextPressed() {
         let uploadVC = UploadPostViewController()
         uploadVC.postImage = self.selectedImage
+        uploadVC.buttonAction = ButtonAction.init(rawValue: 0)
         self.navigationController?.pushViewController(uploadVC, animated: true)
     }
 }

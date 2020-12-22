@@ -30,6 +30,7 @@
 		DA59B46A258679DD00B5882C /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA59B469258679DD00B5882C /* Post.swift */; };
 		DA59B46C2586939600B5882C /* UserProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA59B46B2586939600B5882C /* UserProfileCell.swift */; };
 		DA5A15142592076B008D1B00 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = DA5A15132592076B008D1B00 /* README.md */; };
+		DA5A151625922A85008D1B00 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5A151525922A85008D1B00 /* Date.swift */; };
 		DA6F5272258A730B007B4BDF /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA6F5271258A730B007B4BDF /* Notification.swift */; };
 		DA6F5274258AA281007B4BDF /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA6F5273258AA281007B4BDF /* UIImage.swift */; };
 		DA73836B2587650400B33917 /* FeedViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA73836A2587650400B33917 /* FeedViewCell.swift */; };
@@ -86,6 +87,7 @@
 		DA59B469258679DD00B5882C /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		DA59B46B2586939600B5882C /* UserProfileCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileCell.swift; sourceTree = "<group>"; };
 		DA5A15132592076B008D1B00 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
+		DA5A151525922A85008D1B00 /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
 		DA6F5271258A730B007B4BDF /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
 		DA6F5273258AA281007B4BDF /* UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
 		DA73836A2587650400B33917 /* FeedViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewCell.swift; sourceTree = "<group>"; };
@@ -242,6 +244,7 @@
 				DAFA11B42583DCE700CAE117 /* UIImageView.swift */,
 				DA369636258546FB00887944 /* Database.swift */,
 				DA6F5273258AA281007B4BDF /* UIImage.swift */,
+				DA5A151525922A85008D1B00 /* Date.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -473,6 +476,7 @@
 				DA2CC01B258615D600BEB8D7 /* SelectPhotoViewController.swift in Sources */,
 				DA6F5274258AA281007B4BDF /* UIImage.swift in Sources */,
 				DA36962E2584DEFD00887944 /* Constants.swift in Sources */,
+				DA5A151625922A85008D1B00 /* Date.swift in Sources */,
 				DAC8B896258E5DEB001B83F7 /* NewMessageViewController.swift in Sources */,
 				DAC8B89C258E6BF8001B83F7 /* ChatViewController.swift in Sources */,
 				DAA0737F2582384D0086C442 /* UploadPostViewController.swift in Sources */,

@@ -118,4 +118,44 @@ class Post: Equatable {
         }
     }
     
+    func deletePost() {
+        guard let currentID = Auth.auth().currentUser?.uid else {return}
+        Storage.storage().reference(forURL: self.postImageURLString).delete(completion: nil)
+        //1
+        FOLLOWER_USERS_REF.child(currentID).observe(DataEventType.childAdded) { (snapshot) in
+            let followerID = snapshot.key
+            //2
+            USER_FEED_REF.child(followerID).child(self.postID).removeValue()
+            //3
+            USER_FEED_REF.child(currentID).child(self.postID).removeValue()
+            //4
+            USER_POSTS_REF.child(currentID).child(self.postID).removeValue()
+            //5
+            POST_LIKES_REF.child(self.postID).observe(DataEventType.childAdded) { (snapshot) in
+                let likeUserID = snapshot.key
+                //6
+                USER_LIKES_REF.child(likeUserID).child(self.postID).observeSingleEvent(of: .value) { (snapshot) in
+                    guard let notificationID = snapshot.value as? String else {return}
+                    //7
+                    NOTIFICATION_REF.child(self.ownerID).child(notificationID).removeValue { (error, ref) in
+                        POST_LIKES_REF.child(self.postID).removeValue()
+                        USER_LIKES_REF.child(likeUserID).child(self.postID).removeValue()
+                    }
+                }
+            }
+            
+            let words = self.caption.components(separatedBy: .whitespacesAndNewlines)
+            for var word in words {
+                if word.hasPrefix("#") {
+                    word = word.trimmingCharacters(in: .punctuationCharacters)
+                    word = word.trimmingCharacters(in: .symbols)
+                    HASHTAG_POSTS_REF.child(word).child(self.postID).removeValue()
+                }
+            }
+        }
+        
+        COMMENT_REF.child(self.postID).removeValue()
+        POSTS_REF.child(self.postID).removeValue()
+    }
+    
 }

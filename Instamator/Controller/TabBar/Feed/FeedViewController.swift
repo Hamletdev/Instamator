@@ -20,6 +20,7 @@ class FeedViewController: UICollectionViewController, UICollectionViewDelegateFl
     var feedPost: Post?
     
     var currentKey: String? // pagination
+    var userProfileVC: UserProfileViewController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -148,7 +149,34 @@ extension FeedViewController: FeedViewCellDelegate {
     }
     
     func handleOptionsButtonTapped(_ cell: FeedViewCell) {
-        print("B")
+        guard let safePost = self.feedPost else {return}
+        let alertController = UIAlertController(title: "Options", message: nil, preferredStyle: UIAlertController.Style.actionSheet)
+        
+        alertController.addAction(UIAlertAction(title: "Edit Post", style: UIAlertAction.Style.default, handler: { (_) in
+            //edit post
+            let uploadPostVC = UploadPostViewController()
+            let navigationController = UINavigationController(rootViewController: uploadPostVC)
+            uploadPostVC.postToEdit = safePost
+            uploadPostVC.buttonAction = ButtonAction(rawValue: 1)
+            navigationController.modalPresentationStyle = .fullScreen
+            self.present(navigationController, animated: true, completion: nil)
+        }))
+        
+        alertController.addAction(UIAlertAction(title: "Delete Post", style: UIAlertAction.Style.destructive, handler: { (_) in
+            //delete post
+            safePost.deletePost()
+            if !self.viewSinglePost {
+                self.handleRefresh()
+            } else {
+                if let userProfileVC = self.userProfileVC {
+                self.navigationController?.popViewController(animated: true)
+                    userProfileVC.handleRefresh()
+                }
+            }
+            
+        }))
+        alertController.addAction(UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel, handler: nil))
+        self.present(alertController, animated: true, completion: nil)
     }
     
     func handleLikeButtonTapped(_ cell: FeedViewCell) {

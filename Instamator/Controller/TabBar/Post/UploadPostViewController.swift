@@ -13,6 +13,9 @@ class UploadPostViewController: UIViewController, UITextViewDelegate {
     
     var postImage: UIImage?
     
+    var postToEdit: Post?
+    var buttonAction: ButtonAction!
+    
     let photoImageView: UIImageView = {
         let aImageView = UIImageView()
         aImageView.contentMode = .scaleAspectFill
@@ -34,7 +37,7 @@ class UploadPostViewController: UIViewController, UITextViewDelegate {
         aButton.setTitle("POST", for: UIControl.State.normal)
         aButton.setTitleColor(.white, for: UIControl.State.normal)
         aButton.layer.cornerRadius = 5
-        aButton.addTarget(self, action: #selector(handlePostButtonTapped), for: UIControl.Event.touchUpInside)
+        aButton.addTarget(self, action: #selector(postButtonActionDecide), for: UIControl.Event.touchUpInside)
         aButton.isEnabled = false
         return aButton
     }()
@@ -52,6 +55,22 @@ class UploadPostViewController: UIViewController, UITextViewDelegate {
         postButton.anchorView(top: self.photoImageView.bottomAnchor, left: self.view.leftAnchor, bottom: nil, right: self.view.rightAnchor, topPadding: 20, leftPadding: 40, bottomPadding: 0, rightPadding: 40, width: 0, height: 40)
 
         self.loadPostImage()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if self.buttonAction.rawValue == 1 {
+            guard let safePost = self.postToEdit else {return}
+            self.postButton.setTitle("Edit and Save", for: UIControl.State.normal)
+            self.photoImageView.loadImage(safePost.postImageURLString)
+            self.captionTextView.text = safePost.caption
+            self.navigationItem.title = "Edit Post"
+            self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: UIBarButtonItem.Style.plain, target: self, action: #selector(dismissVC))
+        } else {
+            self.postButton.setTitle("POST", for: UIControl.State.normal)
+            self.navigationItem.title = "Upload Post"
+        }
+        
     }
     
     func loadPostImage() {
@@ -153,6 +172,32 @@ extension UploadPostViewController {
         }
         self.postButton.isEnabled = true
         self.postButton.backgroundColor = UIColor(red: 17/255, green: 154/255, blue: 237/255, alpha: 1)
+    }
+}
+
+
+//MARK: - Helper Methods
+extension UploadPostViewController {
+    @objc func postButtonActionDecide() {
+        self.actionDependsOnValue(buttonAction: self.buttonAction)
+    }
+    
+    func actionDependsOnValue(buttonAction: ButtonAction) {
+        if self.buttonAction.rawValue == 0 {
+            self.handlePostButtonTapped()
+        } else {
+            //save and edit post
+            guard let safePost = self.postToEdit, let updatedCaption = self.captionTextView.text else {return}
+            
+            self.uploadHashTagToDatabase(postID: safePost.postID)
+            POSTS_REF.child(safePost.postID).child("caption").setValue(updatedCaption) { (err, ref) in
+                self.dismiss(animated: true, completion: nil)
+            }
+        }
+    }
+    
+    @objc func dismissVC() {
+        self.dismiss(animated: true, completion: nil)
     }
 }
 
