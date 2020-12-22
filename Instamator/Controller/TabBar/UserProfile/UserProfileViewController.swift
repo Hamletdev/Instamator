@@ -135,6 +135,13 @@ extension UserProfileViewController {
         } else if header.editProfileButton.titleLabel?.text == "Following" {
             header.editProfileButton.setTitle("Follow", for: UIControl.State.normal)
             safeUser.unfollow()
+        } else if header.editProfileButton.titleLabel?.text == "Edit Profile" {
+            let editProfileVC = EditProfileViewController()
+            editProfileVC.editUser = self.headerUser
+            editProfileVC.userProfileVC = self
+            let navigationController = UINavigationController(rootViewController: editProfileVC)
+            navigationController.modalPresentationStyle = .fullScreen
+            self.present(navigationController, animated: true, completion: nil)
         }
     }
     

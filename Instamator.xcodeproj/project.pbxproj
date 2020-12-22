@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		39FF863E1B295C46EAECA7B1 /* Pods_Instamator.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E0F091BCF4F39FE419EAC98 /* Pods_Instamator.framework */; };
+		DA0DFEF9259258F400A66EAA /* EditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0DFEF8259258F300A66EAA /* EditProfileViewController.swift */; };
+		DA0DFEFB25925C2D00A66EAA /* EditProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0DFEFA25925C2D00A66EAA /* EditProfileView.swift */; };
 		DA1FF1B12589F9780042CBDD /* NotificationViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1FF1B02589F9780042CBDD /* NotificationViewCell.swift */; };
 		DA2CC01B258615D600BEB8D7 /* SelectPhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2CC01A258615D600BEB8D7 /* SelectPhotoViewController.swift */; };
 		DA2CC01D2586170C00BEB8D7 /* SelectPhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2CC01C2586170C00BEB8D7 /* SelectPhotoCell.swift */; };
@@ -63,6 +65,8 @@
 		5D3D754F69671AB84C32A4D3 /* Pods-Instamator.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Instamator.release.xcconfig"; path = "Target Support Files/Pods-Instamator/Pods-Instamator.release.xcconfig"; sourceTree = "<group>"; };
 		9E0F091BCF4F39FE419EAC98 /* Pods_Instamator.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Instamator.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9E62F404D976AB154EAE4D44 /* Pods-Instamator.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Instamator.debug.xcconfig"; path = "Target Support Files/Pods-Instamator/Pods-Instamator.debug.xcconfig"; sourceTree = "<group>"; };
+		DA0DFEF8259258F300A66EAA /* EditProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileViewController.swift; sourceTree = "<group>"; };
+		DA0DFEFA25925C2D00A66EAA /* EditProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileView.swift; sourceTree = "<group>"; };
 		DA1FF1B02589F9780042CBDD /* NotificationViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewCell.swift; sourceTree = "<group>"; };
 		DA2CC01A258615D600BEB8D7 /* SelectPhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPhotoViewController.swift; sourceTree = "<group>"; };
 		DA2CC01C2586170C00BEB8D7 /* SelectPhotoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPhotoCell.swift; sourceTree = "<group>"; };
@@ -167,6 +171,7 @@
 			children = (
 				DA369632258529AF00887944 /* FollowLikeViewController.swift */,
 				DAA07382258238820086C442 /* UserProfileViewController.swift */,
+				DA0DFEF8259258F300A66EAA /* EditProfileViewController.swift */,
 			);
 			path = UserProfile;
 			sourceTree = "<group>";
@@ -211,6 +216,7 @@
 			isa = PBXGroup;
 			children = (
 				DAA0738425824A3D0086C442 /* Cell */,
+				DA0DFEFA25925C2D00A66EAA /* EditProfileView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -465,6 +471,7 @@
 				DA2FEE0D2581720800AEE542 /* UIView.swift in Sources */,
 				DA59B46A258679DD00B5882C /* Post.swift in Sources */,
 				DA369633258529AF00887944 /* FollowLikeViewController.swift in Sources */,
+				DA0DFEF9259258F400A66EAA /* EditProfileViewController.swift in Sources */,
 				DA2FEE0B2581704000AEE542 /* LogInViewController.swift in Sources */,
 				DAC8B89A258E6A10001B83F7 /* Message.swift in Sources */,
 				DAFC9E2C258FF5F000E43639 /* HashTagViewCell.swift in Sources */,
@@ -474,6 +481,7 @@
 				DA2CC01F2586176400BEB8D7 /* SelectPhotoHeaderView.swift in Sources */,
 				DAC8B89E258E6C1F001B83F7 /* ChatViewCell.swift in Sources */,
 				DA2CC01B258615D600BEB8D7 /* SelectPhotoViewController.swift in Sources */,
+				DA0DFEFB25925C2D00A66EAA /* EditProfileView.swift in Sources */,
 				DA6F5274258AA281007B4BDF /* UIImage.swift in Sources */,
 				DA36962E2584DEFD00887944 /* Constants.swift in Sources */,
 				DA5A151625922A85008D1B00 /* Date.swift in Sources */,

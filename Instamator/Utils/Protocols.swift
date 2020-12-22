@@ -34,3 +34,7 @@ protocol NotificationViewCellDelegate {
     func postNotificationImageTapped(_ cell: NotificationViewCell)
     func followNotificationButtonTapped(_ cell: NotificationViewCell)
 }
+
+protocol EditProfileViewDelegate {
+    func handleChangeProfilePhoto()
+}
