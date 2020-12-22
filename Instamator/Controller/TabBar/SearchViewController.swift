@@ -23,17 +23,20 @@ class SearchViewController: UITableViewController {
     var totalPosts = [Post]()
     
     var collectionView: UICollectionView!
+    
+    var currentKey: String?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tableView.register(SearchViewCell.self, forCellReuseIdentifier: reuseIdentifier)
         self.tableView.separatorInset = UIEdgeInsets(top: 0, left: 50, bottom: 0, right: 0)
         
-        self.fetchTotalUsers()
-        self.fetchPosts()
+        self.constructCollectionView()
         self.navigationItem.title = "Search"
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "search_unselected"), style: UIBarButtonItem.Style.plain, target: self, action: #selector(constructSearchBar))
-        self.constructCollectionView()
+//         self.fetchPosts()
+        self.constructRefreshControl()
+        self.fetchPostsWithPagination()
     }
 
     // MARK: - Table view data source
@@ -47,7 +50,7 @@ class SearchViewController: UITableViewController {
         if inSearchMode {
             return filteredUsers.count
         } else {
-        return 0
+            return 0
         }
     }
     
@@ -90,8 +93,51 @@ extension SearchViewController {
             let user = User(userID, userDictionary: searchUserDictionary)
         
             self.totalUser.append(user)
+            self.tableView.reloadData()
         }
     }
+    
+    func fetchPosts() {
+           POSTS_REF.observe(DataEventType.childAdded) { (snapshot) in
+               let postID = snapshot.key
+               Database.fetchPost(with: postID) { (post) in
+                   self.totalPosts.append(post)
+                   self.collectionView.reloadData()
+               }
+           }
+       }
+       
+       //pagination
+       func fetchPostsWithPagination() {
+           if self.currentKey == nil {
+               POSTS_REF.queryLimited(toLast: 15).observeSingleEvent(of: DataEventType.value) { (snapshot) in
+                    self.tableView.refreshControl?.endRefreshing()
+                   guard let allObjects = snapshot.children.allObjects as? [DataSnapshot] , let first = snapshot.children.allObjects.first as? DataSnapshot else {return}
+                   allObjects.forEach { (snapshot) in
+                       let postID = snapshot.key
+                       Database.fetchPost(with: postID) { (post) in
+                           self.totalPosts.append(post)
+                           self.collectionView.reloadData()
+                       }
+                   }
+                   self.currentKey = first.key
+               }
+           } else {
+               POSTS_REF.queryOrderedByKey().queryEnding(atValue: self.currentKey).queryLimited(toLast: 6).observeSingleEvent(of: DataEventType.value) { (snapshot) in
+                   guard let allObjects = snapshot.children.allObjects as? [DataSnapshot] , let first = snapshot.children.allObjects.first as? DataSnapshot else {return}
+                   allObjects.forEach { (snapshot) in
+                       let postID = snapshot.key
+                       if postID != self.currentKey {
+                       Database.fetchPost(with: postID) { (post) in
+                           self.totalPosts.append(post)
+                           self.collectionView.reloadData()
+                        }
+                      }
+                   }
+                   self.currentKey = first.key
+               }
+           }
+       }
 }
 
 
@@ -122,14 +168,20 @@ extension SearchViewController: UISearchBarDelegate {
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         searchBar.showsCancelButton = true
         self.inSearchMode = true
+        self.fetchTotalUsers()
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         let searchText = searchBar.text
+        if searchText?.count == 0 {
+            filteredUsers = totalUser
+            self.tableView.reloadData()
+        } else {
         filteredUsers = totalUser.filter({ (user) -> Bool in
             return user.userName.contains(searchText!)
         })
-        self.tableView.reloadData()
+            self.tableView.reloadData()
+        }
     }
 }
 
@@ -171,6 +223,14 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
         navigationController?.pushViewController(feedVC, animated: true)
     }
     
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if totalPosts.count > 14 {
+            if indexPath.item == totalPosts.count - 1 {
+                self.fetchPostsWithPagination()
+            }
+        }
+    }
+    
     
     //MARK: - UICollectionViewDelegateFlowLayout
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -186,13 +246,21 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
         return 1
     }
     
-    func fetchPosts() {
-        POSTS_REF.observe(DataEventType.childAdded) { (snapshot) in
-            let postID = snapshot.key
-            Database.fetchPost(with: postID) { (post) in
-                self.totalPosts.append(post)
-                self.collectionView.reloadData()
-            }
-        }
+}
+
+
+//MARK: - Helper Methods
+extension SearchViewController {
+    func constructRefreshControl() {
+        let refresher = UIRefreshControl()
+        refresher.addTarget(self, action: #selector(refreshTableView), for: UIControl.Event.valueChanged)
+        self.tableView.refreshControl = refresher
+    }
+    
+    @objc func refreshTableView() {
+        self.totalPosts.removeAll(keepingCapacity: false)
+        self.currentKey = nil
+        self.fetchPostsWithPagination()
+        self.collectionView.reloadData()
     }
 }

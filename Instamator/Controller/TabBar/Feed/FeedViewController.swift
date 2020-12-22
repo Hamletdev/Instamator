@@ -19,6 +19,8 @@ class FeedViewController: UICollectionViewController, UICollectionViewDelegateFl
     var viewSinglePost = false
     var feedPost: Post?
     
+    var currentKey: String? // pagination
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.collectionView.backgroundColor = .white
@@ -29,10 +31,12 @@ class FeedViewController: UICollectionViewController, UICollectionViewDelegateFl
         refreshControl.addTarget(self, action: #selector(handleRefresh), for: UIControl.Event.valueChanged)
         collectionView.refreshControl = refreshControl
         
-        self.fetchPosts()
+        //self.fetchPosts()
+        self.fetchPostsWithPagination()
         if !viewSinglePost {
             self.addLogOutButton()
         }
+        
     }
     
     
@@ -69,6 +73,15 @@ class FeedViewController: UICollectionViewController, UICollectionViewDelegateFl
         self.hashTagActiveLabelTapped(cell: cell)
         
         return cell
+    }
+    
+    //pagination
+    override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if totalPost.count > 3 {
+            if indexPath.item == totalPost.count - 1 {
+                self.fetchPostsWithPagination()
+            }
+        }
     }
     
     
@@ -237,6 +250,46 @@ extension FeedViewController {
         }
     }
     
+    func fetchPostsWithPagination() {
+        guard let currentUID = Auth.auth().currentUser?.uid else {return}
+        if self.currentKey == nil {
+            USER_FEED_REF.child(currentUID).queryLimited(toLast: 4).observeSingleEvent(of: DataEventType.value) { (snapshot) in
+                self.collectionView.refreshControl?.endRefreshing()
+                guard let allObjects = snapshot.children.allObjects as? [DataSnapshot], let first = snapshot.children.allObjects.first as? DataSnapshot else {return}
+                allObjects.forEach { (snapshot) in
+                    let postID = snapshot.key
+                    Database.fetchPost(with: postID) { (post) in
+                        self.totalPost.append(post)
+                        self.totalPost.sort { (p1, p2) -> Bool in
+                            return p1.creationDate > p2.creationDate
+                        }
+                        
+                        self.collectionView.reloadData()
+                    }
+                }
+                self.currentKey = first.key
+            }
+        } else {
+            USER_FEED_REF.child(currentUID).queryOrderedByKey().queryEnding(atValue: self.currentKey).queryLimited(toLast: 6).observeSingleEvent(of: .value) { (snapshot) in
+                guard let allObjects = snapshot.children.allObjects as? [DataSnapshot] , let first = snapshot.children.allObjects.first as? DataSnapshot else {return}
+                allObjects.forEach { (snapshot) in
+                    let postID = snapshot.key
+                    if postID != self.currentKey {
+                        Database.fetchPost(with: postID) { (post) in
+                            self.totalPost.append(post)
+                            self.totalPost.sort { (p1, p2) -> Bool in
+                                return p1.creationDate > p2.creationDate
+                            }
+                            
+                            self.collectionView.reloadData()
+                        }
+                    }
+                }
+                self.currentKey = first.key
+            }
+        }
+    }
+    
 }
 
 
@@ -244,7 +297,9 @@ extension FeedViewController {
 extension FeedViewController {
     @objc func handleRefresh() {
         self.totalPost.removeAll(keepingCapacity: false)
-        self.fetchPosts()
+        self.currentKey = nil
+        //self.fetchPosts()
+        self.fetchPostsWithPagination()
         self.collectionView.reloadData()
     }
 }
