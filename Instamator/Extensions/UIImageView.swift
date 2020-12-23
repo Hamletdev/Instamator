@@ -15,6 +15,7 @@ extension UIImageView {
     
     func loadImage(_ imageString: String) {
         self.image = nil
+        let checkImageString = imageString
         if cachedImage[imageString] != nil {
             self.image = cachedImage[imageString]
             return
@@ -28,6 +29,11 @@ extension UIImageView {
             if let safeError = error {
                 print(safeError)
             }
+            
+            if checkImageString != url.absoluteString {
+                return
+            }
+            
             if let safeData = data {
                 let profileImage = UIImage(data: safeData)
                 DispatchQueue.main.async {

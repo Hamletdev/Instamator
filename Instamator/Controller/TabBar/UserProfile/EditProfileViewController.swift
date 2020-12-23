@@ -32,6 +32,11 @@ class EditProfileViewController: UIViewController {
         self.editProfileView.usernameTF.delegate = self
         self.loadUserData()
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        self.editProfileView.constructViewComponents()
+    }
 }
 
 

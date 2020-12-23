@@ -22,35 +22,19 @@ class FeedViewCell: UICollectionViewCell {
                 self.usernameButton.setTitle(user.userName, for: UIControl.State.normal)
                 self.constructPostCaption(user)
                 
-                self.profileImageView.loadImage(user.profileImageURLString)
-                
-                //set profileImageView
-                //                if let profileImageString = user.profileImageURLString {
-                //                UIImage.loadImageUsingCacheWithUrlString(profileImageString) { image in
-                //                    if profileImageString == user.profileImageURLString {
-                //                        self.profileImageView.image = image
-                //                    }
-                //                }
-                //            } else {
-                //                self.profileImageView.image = nil
-                //            }
+                self.profileImageView.loadPhoto(urlString: user.profileImageURLString)
             }
             
             self.likesLabel.text = "\(likes) likes"
             self.updateCurrentUserLikedImage()
             
-            UIImage.loadImageUsingCacheWithUrlString(postImageString) { image in
-                // set the image only when we are still displaying the content for the image we finished downloading
-                if postImageString == self.post?.postImageURLString {
-                    self.postImageView.image = image
-                }
-            }
+            self.postImageView.loadPhoto(urlString: postImageString)
             
         }
     }
     
-    let profileImageView: UIImageView = {
-        let aImageView = UIImageView()
+    let profileImageView: CustomImageView = {
+        let aImageView = CustomImageView()
         aImageView.contentMode = .scaleAspectFill
         aImageView.clipsToBounds = true
         aImageView.backgroundColor = .lightGray
@@ -73,8 +57,8 @@ class FeedViewCell: UICollectionViewCell {
         return aButton
     }()
     
-    lazy var postImageView: UIImageView = {
-        let aImageView = UIImageView()
+    lazy var postImageView: CustomImageView = {
+        let aImageView = CustomImageView()
         aImageView.contentMode = .scaleAspectFill
         aImageView.clipsToBounds = true
         aImageView.backgroundColor = .lightGray

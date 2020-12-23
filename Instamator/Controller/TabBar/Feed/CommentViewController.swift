@@ -76,6 +76,8 @@ class CommentViewController: UICollectionViewController, UICollectionViewDelegat
         self.collectionView.keyboardDismissMode = .interactive
         
         self.fetchComments()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardAppeared), name: UIResponder.keyboardDidShowNotification, object: nil)
     }
     
     
@@ -209,5 +211,10 @@ extension CommentViewController {
                 }
             }
         }
+    }
+    
+    @objc func keyboardAppeared() {
+        print("UIKeyboard Appeared")
+        self.collectionView.scrollToLast()
     }
 }

@@ -21,13 +21,13 @@ class UserProfileHeaderView: UICollectionReusableView, UICollectionViewDelegateF
             guard let safeString = user?.profileImageURLString else {
                 return
             }
-             self.profileImageView.loadImage(safeString)
+            self.profileImageView.loadPhoto(urlString: safeString)
             self.titleEditFollowButton()
         }
     }
     
-    let profileImageView: UIImageView = {
-        let aImageView = UIImageView()
+    let profileImageView: CustomImageView = {
+        let aImageView = CustomImageView()
         aImageView.contentMode = .scaleAspectFill
         aImageView.clipsToBounds = true
         aImageView.backgroundColor = .lightGray

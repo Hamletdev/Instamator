@@ -13,8 +13,6 @@ class EditProfileView: UIView {
     
     var delegate: EditProfileViewDelegate?
     
-    var editFrame = CGRect()
-    
     var updatedUsername: String?
     
     let profileImageView: UIImageView = {
@@ -85,7 +83,7 @@ class EditProfileView: UIView {
         super.init(frame: frame)
         self.backgroundColor = .white
 //        self.translatesAutoresizingMaskIntoConstraints = false
-        self.constructViewComponents()
+//        self.constructViewComponents()
     }
     
     required init?(coder: NSCoder) {
@@ -102,7 +100,7 @@ extension EditProfileView {
     
     func constructViewComponents() {
 //        guard let safeWindow = self.window else {return}
-        let frame = CGRect(x: 0, y: 80, width: UIScreen.main.bounds.width, height: 160)
+        let frame = CGRect(x: 0, y: 80, width: (self.window?.frame.width)!, height: 160)
         let containerView = UIView(frame: frame)
         containerView.backgroundColor = .white
         self.addSubview(containerView)
